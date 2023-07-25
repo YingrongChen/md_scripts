@@ -1,0 +1,19 @@
+#io flags:
+-out:pdb_gz
+-out:file:silent_struct_type binary
+
+-flexPepDocking:receptor_chain AB
+-flexPepDocking:peptide_chain C
+
+#number of structures to produce
+-nstruct 100
+
+#flexpepdock flags:
+-flexPepDocking:pep_refine
+-flexPepDocking:backrub_peptide
+
+#packing flags
+-ex1
+-ex2aro
+#-use_input_sc
+#-unboundrot complex.prepack_A.pdb

@@ -1,0 +1,103 @@
+---
+title: "plDDTvsRMSF"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(ggplot2)
+library(stringr)
+library(dplyr)
+library(patchwork)
+library(tidyr)
+```
+
+```{r input}
+setwd('/dors/meilerlab/home/chey120/mhcii_asyn/Data')
+AF = read.table("peptide_AFconfidence.dat",col.names= c("Res","Resid", "pLDDT", "protein")) %>% separate(protein, c("MHC_variants", "peptide"))
+MD = read.table("trial0_peptide_rmsf_no_cap.dat",col.names= c("Resid","rmsf", "protein")) %>% separate(protein, c("peptide", "MHC_variants", "Direction")) %>% mutate(Resid=Resid-180)
+AF <- AF %>%
+  left_join(MD, by = c("peptide", "MHC_variants", "Resid"))
+```
+
+```{r sum, echo=FALSE}
+AF %>%
+  ggplot() +
+  geom_point(aes(x=rmsf, y=pLDDT, color=Direction, shape=MHC_variants)) +
+  labs(title ="rmsf_vs_pLDDT")
+```
+- rmsf and pLDDT are negatively correlated. They are more negatively correlated in reverse direction 
+```{r DNEAY, echo=FALSE}
+DNEAY_rev_4x5w <- AF %>%
+  filter(peptide=="120DNEAY" & Direction=="rev" & MHC_variants=="4x5w") 
+DNEAY_rev_5ni9 <- AF %>%
+  filter(peptide=="120DNEAY" & Direction=="rev" & MHC_variants=="5ni9") 
+DNEAY_forw_4x5w <- AF %>%
+  filter(peptide=="120DNEAY" & is.na(Direction) & MHC_variants=="4x5w") 
+DNEAY_forw_5ni9 <- AF %>%
+  filter(peptide=="120DNEAY" & is.na(Direction) & MHC_variants=="5ni9") 
+ggplot() +
+  geom_line(data=DNEAY_rev_4x5w, aes(x=Resid, y=pLDDT/10), color='blue')  +   
+  geom_line(data=DNEAY_rev_5ni9, aes(x=Resid, y=pLDDT/10), color='red')  +   
+  geom_line(data=DNEAY_rev_4x5w, aes(x=Resid, y=rmsf), color='blue', linetype = 3)  +   
+  geom_line(data=DNEAY_rev_5ni9, aes(x=Resid, y=rmsf), color='red', linetype = 3)  +  
+  geom_line(data=DNEAY_forw_4x5w, aes(x=Resid, y=rmsf), color='blue', linetype = 2)  +   
+  geom_line(data=DNEAY_forw_5ni9, aes(x=Resid, y=rmsf), color='red', linetype = 2)  +   
+  labs(title ="120DNEAY", y="pLDDT/10 & rmsf", caption="blue=4x5w, red=5ni9, solid=pLDDT/10, dashed=forward direction, dotted=reverse direction \n note: both structures predicted by AF are in forward direction")
+```
+- Based on rmsf and pLDDT, forward direction is more stable, which is also shown in the MD trajectory
+```{r AEAAG, echo=FALSE}
+AEAAG_rev_4x5w <- AF %>%
+  filter(peptide=="27AEAAG" & Direction=="rev" & MHC_variants=="4x5w") 
+AEAAG_rev_5ni9 <- AF %>%
+  filter(peptide=="27AEAAG" & Direction=="rev" & MHC_variants=="5ni9") 
+AEAAG_forw_4x5w <- AF %>%
+  filter(peptide=="27AEAAG" & is.na(Direction) & MHC_variants=="4x5w") 
+AEAAG_forw_5ni9 <- AF %>%
+  filter(peptide=="27AEAAG" & is.na(Direction) & MHC_variants=="5ni9") 
+ggplot() +
+  geom_line(data=AEAAG_rev_4x5w, aes(x=Resid, y=pLDDT/10), color='blue')  +   
+  geom_line(data=AEAAG_rev_5ni9, aes(x=Resid, y=pLDDT/10), color='red')  +   
+  geom_line(data=AEAAG_rev_4x5w, aes(x=Resid, y=rmsf), color='blue', linetype = 3)  +   
+  geom_line(data=AEAAG_rev_5ni9, aes(x=Resid, y=rmsf), color='red', linetype = 3)  +  
+  geom_line(data=AEAAG_forw_4x5w, aes(x=Resid, y=rmsf), color='blue', linetype = 2)  +   
+  geom_line(data=AEAAG_forw_5ni9, aes(x=Resid, y=rmsf), color='red', linetype = 2)  +   
+  labs(title ="27AEAAG", y="pLDDT/10 & rmsf", caption="blue=4x5w, red=5ni9, solid=pLDDT/10, dashed=forward direction, dotted=reverse direction \n note: both structures predicted by AF are in reverse direction")
+```
+
+```{r KEGVL, echo=FALSE}
+KEGVL_rev_4x5w <- AF %>%
+  filter(peptide=="34KEGVL" & Direction=="rev" & MHC_variants=="4x5w") 
+KEGVL_rev_5ni9 <- AF %>%
+  filter(peptide=="34KEGVL" & Direction=="rev" & MHC_variants=="5ni9") 
+KEGVL_forw_4x5w <- AF %>%
+  filter(peptide=="34KEGVL" & is.na(Direction) & MHC_variants=="4x5w") 
+KEGVL_forw_5ni9 <- AF %>%
+  filter(peptide=="34KEGVL" & is.na(Direction) & MHC_variants=="5ni9") 
+ggplot() +
+  geom_line(data=KEGVL_rev_4x5w, aes(x=Resid, y=pLDDT/10), color='blue')  +   
+  geom_line(data=KEGVL_rev_5ni9, aes(x=Resid, y=pLDDT/10), color='red')  +   
+  geom_line(data=KEGVL_rev_4x5w, aes(x=Resid, y=rmsf), color='blue', linetype = 3)  +   
+  geom_line(data=KEGVL_rev_5ni9, aes(x=Resid, y=rmsf), color='red', linetype = 3)  +  
+  geom_line(data=KEGVL_forw_4x5w, aes(x=Resid, y=rmsf), color='blue', linetype = 2)  +   
+  geom_line(data=KEGVL_forw_5ni9, aes(x=Resid, y=rmsf), color='red', linetype = 2)  +   
+  labs(title ="34KEGVL", y="pLDDT/10 & rmsf", caption="blue=4x5w, red=5ni9, solid=pLDDT/10, dashed=forward direction, dotted=reverse direction \n note: both structures predicted by AF are in forward direction")
+```
+
+```{r KEGVV, echo=FALSE}
+KEGVV_rev_4x5w <- AF %>%
+  filter(peptide=="45KEGVV" & Direction=="rev" & MHC_variants=="4x5w") 
+KEGVV_rev_5ni9 <- AF %>%
+  filter(peptide=="45KEGVV" & Direction=="rev" & MHC_variants=="5ni9") 
+KEGVV_forw_4x5w <- AF %>%
+  filter(peptide=="45KEGVV" & is.na(Direction) & MHC_variants=="4x5w") 
+KEGVV_forw_5ni9 <- AF %>%
+  filter(peptide=="45KEGVV" & is.na(Direction) & MHC_variants=="5ni9") 
+ggplot() +
+  geom_line(data=KEGVV_rev_4x5w, aes(x=Resid, y=pLDDT/10), color='blue')  +   
+  geom_line(data=KEGVV_rev_5ni9, aes(x=Resid, y=pLDDT/10), color='red')  +   
+  geom_line(data=KEGVV_rev_4x5w, aes(x=Resid, y=rmsf), color='blue', linetype = 3)  +   
+  geom_line(data=KEGVV_rev_5ni9, aes(x=Resid, y=rmsf), color='red', linetype = 3)  +  
+  geom_line(data=KEGVV_forw_4x5w, aes(x=Resid, y=rmsf), color='blue', linetype = 2)  +   
+  geom_line(data=KEGVV_forw_5ni9, aes(x=Resid, y=rmsf), color='red', linetype = 2)  +   
+  labs(title ="45KEGVV", y="pLDDT/10 & rmsf", caption="blue=4x5w, red=5ni9, solid=pLDDT/10, dashed=forward direction, dotted=reverse direction \n note: structure of 4x5w is in reverse direction; that of 5ni9 is in forward direction")
+```

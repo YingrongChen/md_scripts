@@ -1,0 +1,29 @@
+# i/o
+-in:file:fasta target.fasta			#### fasta of final sequence to be modeled
+-parser:protocol rosetta_cm.xml		#### path to XML script, for the soluble protein, use rosetta_cm_sol.xml
+-out:path:all output_files/				#### designates where to put pdbs/silent files/scorefiles/etc
+# output styles
+-out:pdb						#### specifiies output format as pdbs
+#-out:pdb_gz						#### specifies output formats as gzipped pdbs
+
+-out:file:scorefile 3pbl_scores.out			#### gives specific name for scorefile (default is scores.sc)
+-nstruct 1						#### specifies number of models to be created
+
+# relax options
+-relax:minimize_bond_angles
+-relax:minimize_bond_lengths
+-relax:jump_move true
+-default_max_cycles 200
+-relax:min_type lbfgs_armijo_nonmonotone
+-score:weights input_files/stage3_rlx_membrane.wts			#### path to membrane weights file
+-use_bicubic_interpolation
+-hybridize:stage1_probability 1.0
+-sog_upper_bound 15
+
+# reduce memory footprint
+-chemical:exclude_patches LowerDNA  UpperDNA Cterm_amidation SpecialRotamer VirtualBB ShoveBB VirtualDNAPhosphate VirtualNTerm CTermConnect sc_orbitals pro_hydroxylated_case1 pro_hydroxylated_case2 ser_phosphorylated thr_phosphorylated  tyr_phosphorylated tyr_sulfated lys_dimethylated lys_monomethylated  lys_trimethylated lys_acetylated glu_carboxylated cys_acetylated tyr_diiodinated N_acetylated C_methylamidated MethylatedProteinCterm
+
+-linmem_ig 10
+
+# run multiple processors to produce output for one file
+#-multiple_processes_writing_to_one_directory

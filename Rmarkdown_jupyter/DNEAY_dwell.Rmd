@@ -1,0 +1,30 @@
+---
+title: "hbt_dat"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(ggplot2)
+library(stringr)
+library(dplyr)
+library(patchwork)
+library(tidyr)
+getwd()
+```
+
+```{r}
+setwd('/dors/meilerlab/home/chey120/mhcii_asyn/Data')
+DNEAY_4x5w = read.table("DNEAY_4x5w_dwell_190.dat",col.names= "Dwell_frames") %>% filter(Dwell_frames>5 & Dwell_frames <300)
+DNEAY_4x5w_4cutoff = read.table("DNEAY_4x5w_dwell_190_4cutoff.dat",col.names= "Dwell_frames")%>% filter(Dwell_frames>5 & Dwell_frames <300)
+phos_DNEAY_4x5w = read.table("phos_DNEAY_4x5w_dwell_190.dat",col.names= "Dwell_frames")%>% filter(Dwell_frames>5 & Dwell_frames <300)
+
+```
+
+```{r}
+hist(DNEAY_4x5w$Dwell_frames)
+hist(DNEAY_4x5w_4cutoff$Dwell_frames)
+```
+
+```{r}
+hist(phos_DNEAY_4x5w$Dwell_frames)
+```

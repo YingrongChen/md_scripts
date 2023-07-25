@@ -1,0 +1,135 @@
+---
+title: "hbt_dat"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(ggplot2)
+library(stringr)
+library(dplyr)
+library(patchwork)
+library(tidyr)
+library(Hmisc)
+getwd()
+```
+
+```{r}
+setwd('/dors/meilerlab/home/chey120/mhcii_asyn/Data')
+DNEAY_4x5w = read.table("DNEAY_4x5w_hbond.dat",fill=TRUE,header=TRUE) %>% mutate(row_number= 1:n())
+DNEAY_5ni9 = read.table("DNEAY_5ni9_hbond.dat",fill=TRUE,header=TRUE) %>% mutate(row_number= 1:n())
+phos_DNEAY_4x5w = read.table("phos_DNEAY_4x5w_hbond.dat",fill=TRUE,header = TRUE) %>% mutate(row_number= 1:n())
+phos_DNEAY_5ni9 = read.table("phos_DNEAY_5ni9_hbond.dat",fill=TRUE,header = TRUE) %>% mutate(row_number= 1:n())
+```
+
+```{r}
+df = DNEAY_5ni9 %>% 
+  subset(select = -c(Frame,DNEAY_5ni9, row_number))
+hist.data.frame(df)
+```
+
+```{r 4x5w}
+join_4x5w <- DNEAY_4x5w %>%
+  inner_join(phos_DNEAY_4x5w, by = "row_number")
+join_5ni9 <- DNEAY_5ni9 %>%
+  inner_join(phos_DNEAY_5ni9, by = "row_number")
+```
+
+```{r}
+O190 <- join_4x5w%>%
+  select(10,26) %>% 
+  pivot_longer(cols = c(1,2), names_to = "phos", values_to = "distance")
+#70ND2-190O
+ggplot(O190) + 
+  geom_histogram(aes(distance), binwidth=0.1) + 
+  facet_grid(cols=vars(phos))
+```
+
+```{r}
+#OD1192
+join_4x5w%>%
+  select(12,28) %>% 
+  pivot_longer(cols = c(1,2), names_to = "phos", values_to = "distance")%>%
+  ggplot() + 
+  geom_histogram(aes(distance), binwidth=0.1) + 
+  facet_grid(cols=vars(phos))
+```
+
+```{r}
+#165-185
+join_4x5w%>%
+  select(2,18) %>% 
+  pivot_longer(cols = c(1,2), names_to = "phos", values_to = "distance")%>%
+  ggplot() + 
+  geom_histogram(aes(distance), binwidth=0.1) + 
+  facet_grid(cols=vars(phos))
+join_4x5w%>%
+  select(3,19) %>% 
+  pivot_longer(cols = c(1,2), names_to = "phos", values_to = "distance")%>%
+  ggplot() + 
+  geom_histogram(aes(distance), binwidth=0.1) + 
+  facet_grid(cols=vars(phos))
+```
+
+```{r}
+#63/10-187
+join_4x5w%>%
+  select(6,22) %>% 
+  pivot_longer(cols = c(1,2), names_to = "phos", values_to = "distance")%>%
+  ggplot() + 
+  geom_histogram(aes(distance), binwidth=0.1) + 
+  facet_grid(cols=vars(phos))
+join_4x5w%>%
+  select(7,23) %>% 
+  pivot_longer(cols = c(1,2), names_to = "phos", values_to = "distance")%>%
+  ggplot() + 
+  geom_histogram(aes(distance), binwidth=0.1) + 
+  facet_grid(cols=vars(phos))
+```
+##5ni9
+```{r}
+#165-185
+join_5ni9%>%
+  select(2,17) %>% 
+  pivot_longer(cols = c(1,2), names_to = "phos", values_to = "distance")%>%
+  ggplot() + 
+  geom_histogram(aes(distance), binwidth=0.1) + 
+  facet_grid(cols=vars(phos))
+join_5ni9%>%
+  select(3,18) %>% 
+  pivot_longer(cols = c(1,2), names_to = "phos", values_to = "distance")%>%
+  ggplot() + 
+  geom_histogram(aes(distance), binwidth=0.1) + 
+  facet_grid(cols=vars(phos))
+```
+
+```{r}
+#190
+join_5ni9%>%
+  select(8,23) %>% 
+  pivot_longer(cols = c(1,2), names_to = "phos", values_to = "distance")%>%
+  ggplot() + 
+  geom_histogram(aes(distance), binwidth=0.1) + 
+  facet_grid(cols=vars(phos))
+join_5ni9%>%
+  select(9,24) %>% 
+  pivot_longer(cols = c(1,2), names_to = "phos", values_to = "distance")%>%
+  ggplot() + 
+  geom_histogram(aes(distance), binwidth=0.1) + 
+  facet_grid(cols=vars(phos))
+```
+
+```{r}
+#63/10-187
+join_4x5w%>%
+  select(6,22) %>% 
+  pivot_longer(cols = c(1,2), names_to = "phos", values_to = "distance")%>%
+  ggplot() + 
+  geom_histogram(aes(distance), binwidth=0.1) + 
+  facet_grid(cols=vars(phos))
+join_4x5w%>%
+  select(7,23) %>% 
+  pivot_longer(cols = c(1,2), names_to = "phos", values_to = "distance")%>%
+  ggplot() + 
+  geom_histogram(aes(distance), binwidth=0.1) + 
+  facet_grid(cols=vars(phos))
+```

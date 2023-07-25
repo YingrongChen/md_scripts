@@ -1,0 +1,173 @@
+---
+title: "plDDTvsRMSF"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(ggplot2)
+library(stringr)
+library(dplyr)
+library(patchwork)
+library(tidyr)
+library(matrixStats)
+```
+
+```{r input}
+setwd("/gpfs51/dors2/meilerlab/home/chey120/mhcii_asyn/Data/rmsf")
+asyn = read.table("rmsf_asyn.dat",col.names= c("Resid","rmsf", "protein","Trial"), comment = "#", ) %>%
+  separate(protein, c("peptide", "MHC_variants", "Direction")) %>%
+  mutate(Resid=Resid-180, Direction = replace_na(Direction, "forw"), MHC_variants = replace_na(MHC_variants, "TCR"))
+mhcii = read.table("rmsf_mhcii.dat",col.names= c("Resid","rmsf", "protein","Trial"), comment = "#", ) %>%
+  separate(protein, c("peptide", "MHC_variants", "Direction")) %>%
+  mutate(Direction = replace_na(Direction, "forw"), MHC_variants = replace_na(MHC_variants, "TCR"))
+tcr = read.table("rmsf_tcr.dat",col.names= c("Resid","rmsf", "protein","Trial"), comment = "#", ) %>%
+  separate(protein, c("peptide", "MHC_variants", "Direction")) %>%
+  mutate(Direction = replace_na(Direction, "forw"), MHC_variants = replace_na(MHC_variants, "TCR"))
+```
+
+```{r asyn_process}
+asyn_tcr = asyn %>%
+  filter(MHC_variants=="TCR")%>%
+  mutate(Resid=Resid-220)
+asyn_DNEAY = asyn %>%
+  filter((peptide == "DNEAY"|peptide == "S129DNEAY"|peptide == "Y125DNEAY")&Direction=="forw")
+asyn_KEGVL = asyn %>%
+  filter((peptide == "KEGVL"|peptide == "S42KEGVL"|peptide == "Y39KEGVL")&Direction=="forw")
+```
+
+```{r asyn_plot, echo=FALSE}
+ggplot() +
+  geom_point(data=asyn_DNEAY, aes(x=Resid, y=rmsf), color='blue')  +  
+  facet_grid(vars(peptide), vars(MHC_variants)) +   
+  labs(caption="blue=trial0, red=trial1, green=trial2") +
+  ylim(0,10)
+ggplot() +
+  geom_point(data=asyn_KEGVL, aes(x=Resid, y=rmsf), color='blue')  +  
+  facet_grid(vars(peptide), vars(MHC_variants)) +   
+  labs(caption="blue=trial0, red=trial1, green=trial2")+
+  ylim(0,10)
+```
+It's interesting how ptm destablize DNEAY but stablize KEGVL
+```{r phosphorylation_plot}
+MD<-MD0 %>%
+  full_join(MD1, by=c("peptide", "MHC_variants", "Direction","Resid")) %>%
+  full_join(MD2, by=c("peptide", "MHC_variants", "Direction","Resid")) %>%
+  full_join(MD3, by=c("peptide", "MHC_variants", "Direction","Resid")) %>%
+  full_join(MD3, by=c("peptide", "MHC_variants", "Direction","Resid"))%>%
+  mutate(avg=rowMeans(.[c("rmsf.x","rmsf.y","rmsf.x.x","rmsf.y.y","rmsf")], na.rm=TRUE)) %>%
+  mutate(sd=rowSds(as.matrix(.[c("rmsf.x","rmsf.y","rmsf.x.x","rmsf.y.y","rmsf")], na.rm=TRUE)))
+
+MD %>%
+  filter(peptide == "DNEAY"|peptide == "phosDNEAY")%>%
+  ggplot() +
+  geom_point(aes(x=Resid, y=rmsf.x, shape=MHC_variants), color='blue')  +   
+  geom_point(aes(x=Resid, y=rmsf.y, shape=MHC_variants), color='red')  +   
+  geom_point(aes(x=Resid, y=rmsf.x.x, shape=MHC_variants), color='darkgreen') +
+  geom_point(aes(x=Resid, y=rmsf.y.y, shape=MHC_variants), color='gold') +
+  facet_grid(vars(peptide), vars(Direction))
+
+ggplot(MD, aes(x=Resid, y=avg, color=MHC_variants)) + 
+  geom_point()+
+  geom_errorbar(aes(ymin=avg-sd, ymax=avg+sd), width=.2,
+                 position=position_dodge(0.05))+
+  facet_grid(vars(peptide), vars(Direction))
+```
+
+```{r mhcii_plot, echo=FALSE}
+ggplot() +
+  geom_point(data=mhcii0, aes(x=Resid, y=rmsf), color='blue')  +   
+  geom_point(data=mhcii1, aes(x=Resid, y=rmsf), color='red')  +   
+  geom_point(data=mhcii2, aes(x=Resid, y=rmsf), color='darkgreen') +
+  geom_point(data=mhcii3, aes(x=Resid, y=rmsf), color='gold') +
+  geom_point(data=mhcii4, aes(x=Resid, y=rmsf), color='purple') +
+  facet_grid(vars(peptide), vars(Direction)) +   
+  labs(caption="blue=trial0, red=trial1, green=trial2, yellow = trial3, purple = trial4")
+```
+
+```{r mhcii_join}
+mhcii_avg<-mhcii0 %>%
+  full_join(mhcii1, by=c("peptide", "MHC_variants", "Direction","Resid")) %>%
+  full_join(mhcii2, by=c("peptide", "MHC_variants", "Direction","Resid")) %>%
+  full_join(mhcii3, by=c("peptide", "MHC_variants", "Direction","Resid")) %>%
+  full_join(mhcii4, by=c("peptide", "MHC_variants", "Direction","Resid")) %>%
+  mutate(avg=rowMeans(.[c("rmsf.x","rmsf.y","rmsf.x.x","rmsf.y.y","rmsf")], na.rm=TRUE)) %>%
+  mutate(sd=rowSds(as.matrix(.[c("rmsf.x","rmsf.y","rmsf.x.x","rmsf.y.y","rmsf")], na.rm=TRUE)))
+
+ggplot(mhcii_avg, aes(x=Resid, y=avg, color=MHC_variants)) + 
+  geom_point()+
+  geom_errorbar(aes(ymin=avg-sd, ymax=avg+sd), width=.2,
+                 position=position_dodge(0.05))+
+  facet_grid(vars(peptide), vars(Direction))
+```
+
+```{r mhcii_phosphorylation_plot}
+mhcii_avg %>%
+  filter(Direction=="forw")%>%
+  filter(peptide == "DNEAY"|peptide == "phosDNEAY")%>%
+  ggplot(aes(x=Resid, y=avg, color=MHC_variants)) + 
+  geom_point()+
+  geom_errorbar(aes(ymin=avg-sd, ymax=avg+sd), width=.2,
+                 position=position_dodge(0.05))+
+  facet_grid(vars(peptide), vars(Direction))
+
+#mhcii_avg %>%
+  #filter(peptide == "DNEAY"|peptide == "phosDNEAY")%>%
+ # filter(Direction=="forw")%>%
+  #ggplot() +
+  #geom_point(aes(x=Resid, y=avg, col=peptide, shape=Direction))
+```
+
+```{r mchii_high_rmsf}
+mhcii_A = mhcii_avg %>%
+  filter(peptide == "DNEAY"|peptide == "phosDNEAY")%>%
+  filter(Direction=="forw")%>%
+  filter(Resid>5 & Resid < 82) %>%
+  arrange(desc(avg))
+head(mhcii_A, 80)
+
+mhcii_A %>%
+  ggplot() +
+  #geom_line(aes(x=Resid, y=rmsf.0), color='blue')  +   
+  geom_line(aes(x=Resid, y=rmsf.x), color='red')  +   
+  geom_line(aes(x=Resid, y=rmsf.y), color='darkgreen') +
+  geom_line(aes(x=Resid, y=rmsf.x.x), color='gold') +
+  geom_line(aes(x=Resid, y=rmsf.y.y), color='purple') +
+  facet_grid(vars(peptide), vars(Direction))
+
+mhcii_A %>%
+  ggplot(aes(x=Resid, y=avg, color=peptide)) +
+  geom_point() +  
+  geom_errorbar(aes(ymin=avg-sd, ymax=avg+sd), width=.1, position=position_dodge(0.05))+
+  facet_grid(vars(MHC_variants))
+
+```
+
+```{r mchii_high_rmsf}
+mhcii_B = mhcii_avg %>%
+  filter(peptide == "DNEAY"|peptide == "phosDNEAY")%>%
+  filter(Direction=="forw")%>%
+  filter(Resid>88 & Resid < 173) %>%
+  arrange(desc(avg))
+head(mhcii_B, 80)
+
+mhcii_B %>%
+  ggplot() +
+  geom_line(aes(x=Resid, y=rmsf), color='blue')  +   
+  geom_line(aes(x=Resid, y=rmsf.x), color='red')  +   
+  geom_line(aes(x=Resid, y=rmsf.y), color='darkgreen') +
+  geom_line(aes(x=Resid, y=rmsf.x.x), color='gold') +
+  geom_line(aes(x=Resid, y=rmsf.y.y), color='purple') +
+  facet_grid(vars(peptide), vars(Direction))
+
+mhcii_B %>%
+  ggplot() +
+  geom_line(aes(x=Resid, y=avg, color=peptide)) 
+
+mhcii_B %>%
+  filter(Resid>88 & Resid < 173) %>%
+  ggplot(aes(x=Resid, y=avg, color=peptide)) +
+  geom_point() +  
+  geom_errorbar(aes(ymin=avg-sd, ymax=avg+sd), width=.1, position=position_dodge(0.05))+
+  facet_grid(vars(MHC_variants))
+  
+```

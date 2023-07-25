@@ -1,0 +1,175 @@
+---
+title: "hbt_dat"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(ggplot2)
+library(stringr)
+library(dplyr)
+library(patchwork)
+library(tidyr)
+```
+
+```{r}
+setwd('/dors/meilerlab/home/chey120/mhcii_asyn/MD/prod')
+h_bond = read.table("trial0_backbond_hbt.dat",col.names= c("Acceptor","DonorH", "Donor", "Frames","Frac","AvgDist", "AvgAng", "protein")) %>% separate(protein, c("peptide", "MHC_variants", "Direction"))
+```
+
+## SUB Data
+```{r}
+rev <- h_bond %>% filter(Direction=="rev")
+rev_4x5w<-rev %>% filter(MHC_variants=="4x5w")
+rev_5ni9<-rev %>% filter(MHC_variants=="5ni9")
+
+forw <- h_bond %>% filter(is.na(Direction))
+forw_4x5w<-forw %>% filter(MHC_variants=="4x5w")
+forw_5ni9<-forw %>% filter(MHC_variants=="5ni9")
+```
+
+# Rev
+```{r}
+sum_rev <- rev %>%
+  group_by(Acceptor, MHC_variants) %>%
+  summarize(Frac=sum(Frac), freq=n())%>%
+  filter(Frac>0.2 & freq>10)%>%
+  arrange(desc(Frac))
+sum_rev_4x5w <- rev_4x5w %>%
+  group_by(Acceptor) %>%
+  summarize(Frac=sum(Frac), freq=n())%>%
+  filter(Frac>0.2 & freq>10)%>%
+  arrange(desc(Frac))
+sum_rev_5ni9 <- rev_5ni9 %>%
+  group_by(Acceptor) %>%
+  summarize(Frac=sum(Frac), freq=n())%>%
+  filter(Frac>0.2 & freq>10)%>%
+  arrange(desc(Frac))
+donor_sum_rev <- rev %>%
+  group_by(Donor, MHC_variants) %>%
+  summarize(Frac=sum(Frac), freq=n())%>%
+  filter(Frac>0.2 & freq>10)%>%
+  arrange(desc(Frac))
+donor_sum_rev_4x5w <- rev_4x5w %>%
+  group_by(Donor, MHC_variants) %>%
+  summarize(Frac=sum(Frac), freq=n())%>%
+  filter(Frac>0.2 & freq>10)%>%
+  arrange(desc(Frac))
+donor_sum_rev_5ni9 <- rev_5ni9 %>%
+  group_by(Donor, MHC_variants) %>%
+  summarize(Frac=sum(Frac), freq=n())%>%
+  filter(Frac>0.2 & freq>10)%>%
+  arrange(desc(Frac))
+```
+
+```{r}
+sum_rev_4x5w %>%
+  ggplot(aes(x=Acceptor, y=Frac)) +
+  geom_bar(stat="identity", position = "dodge")  +   
+  theme(axis.text.x=element_text (angle =45, hjust =1, size = 7), legend.position = 'top') +
+  labs(title ="rev_4x5w") +
+  scale_fill_brewer(palette = "Pastel2")
+
+sum_rev_5ni9 %>%
+  ggplot(aes(x=Acceptor, y=Frac)) +
+  geom_bar(stat="identity", position = "dodge")  +   
+  theme(axis.text.x=element_text (angle =45, hjust =1, size = 7), legend.position = 'top') +
+  labs(title ="rev_5ni9") +
+  scale_fill_brewer(palette = "Pastel2")
+```
+
+# Forward
+```{r}
+sum_forw <- forw %>%
+  group_by(Acceptor, MHC_variants) %>%
+  summarize(Frac=sum(Frac), freq=n())%>%
+  filter(Frac>0.2 & freq>10)%>%
+  arrange(desc(Frac))
+sum_rev_4x5w <- rev_4x5w %>%
+  group_by(Acceptor) %>%
+  summarize(Frac=sum(Frac), freq=n())%>%
+  filter(Frac>0.2 & freq>10)%>%
+  arrange(desc(Frac))
+sum_rev_5ni9 <- rev_5ni9 %>%
+  group_by(Acceptor) %>%
+  summarize(Frac=sum(Frac), freq=n())%>%
+  filter(Frac>0.2 & freq>10)%>%
+  arrange(desc(Frac))
+donor_sum_rev <- rev %>%
+  group_by(Donor, MHC_variants) %>%
+  summarize(Frac=sum(Frac), freq=n())%>%
+  filter(Frac>0.2 & freq>10)%>%
+  arrange(desc(Frac))
+donor_sum_rev_4x5w <- rev_4x5w %>%
+  group_by(Donor, MHC_variants) %>%
+  summarize(Frac=sum(Frac), freq=n())%>%
+  filter(Frac>0.2 & freq>10)%>%
+  arrange(desc(Frac))
+donor_sum_rev_5ni9 <- rev_5ni9 %>%
+  group_by(Donor, MHC_variants) %>%
+  summarize(Frac=sum(Frac), freq=n())%>%
+  filter(Frac>0.2 & freq>10)%>%
+  arrange(desc(Frac))
+```
+
+```{r}
+donor_sum_rev_4x5w %>%
+  ggplot(aes(x=Donor, y=Frac)) +
+  geom_bar(stat="identity", position = "dodge")  +   
+  theme(axis.text.x=element_text (angle =45, hjust =1, size = 7), legend.position = 'top') +
+  labs(title ="rev_4x5w") +
+  scale_fill_brewer(palette = "Pastel2")
+
+donor_sum_rev_5ni9 %>%
+  ggplot(aes(x=Donor, y=Frac)) +
+  geom_bar(stat="identity", position = "dodge")  +   
+  theme(axis.text.x=element_text (angle =45, hjust =1, size = 7), legend.position = 'top') +
+  labs(title ="rev_5ni9") +
+  scale_fill_brewer(palette = "Pastel2")
+```
+
+# Acceptor
+```{r}
+#SER_54@O or SER_54@OG
+rev %>% filter(grepl("54",Acceptor)) %>% group_by(Donor, Acceptor, MHC_variants) %>% summarize(Frac=sum(Frac), freq=n())%>%arrange(desc(Frac))
+forw %>% filter(grepl("54",Acceptor)) %>% group_by(Donor, Acceptor, MHC_variants) %>% summarize(Frac=sum(Frac), freq=n())%>%arrange(desc(Frac))
+```
+
+```{r}
+#PHE_52@O
+rev %>% filter(grepl("52",Acceptor)) %>% group_by(Donor, Acceptor, MHC_variants) %>% summarize(Frac=sum(Frac), freq=n())%>%arrange(desc(Frac))
+forw %>% filter(grepl("52",Acceptor)) %>% group_by(Donor, Acceptor, MHC_variants) %>% summarize(Frac=sum(Frac), freq=n())%>%arrange(desc(Frac))
+```
+
+```{r}
+#165@OD1
+rev %>% filter(grepl("165",Acceptor)) %>% group_by(Donor, Acceptor, MHC_variants) %>% summarize(Frac=sum(Frac), freq=n())%>%arrange(desc(Frac))
+forw %>% filter(grepl("165",Acceptor)) %>% group_by(Donor, Acceptor, MHC_variants) %>% summarize(Frac=sum(Frac), freq=n())%>%arrange(desc(Frac))
+```
+
+```{r}
+#GLU_12@OE2 or GLU_12@OE1: side chain specific 
+rev %>% filter(grepl("12",Acceptor)) %>% group_by(Donor, Acceptor, MHC_variants) %>% summarize(Frac=sum(Frac), freq=n())%>%arrange(desc(Frac))
+
+forw %>% filter(grepl("12",Acceptor)) %>% group_by(Donor, Acceptor, MHC_variants) %>% summarize(Frac=sum(Frac), freq=n())%>%arrange(desc(Frac))
+```
+
+```{r}
+#ASN_70@OD1 
+rev %>% filter(grepl("70",Acceptor)) %>% group_by(Donor, Acceptor, MHC_variants) %>% summarize(Frac=sum(Frac), freq=n())%>%arrange(desc(Frac))
+
+forw %>% filter(grepl("70",Acceptor)) %>% group_by(Donor, Acceptor, MHC_variants) %>% summarize(Frac=sum(Frac), freq=n())%>%arrange(desc(Frac))
+```
+
+```{r}
+# ASN_63@OD1
+rev %>% filter(grepl("63",Acceptor)) %>% group_by(Donor, Acceptor, MHC_variants) %>% summarize(Frac=sum(Frac), freq=n())%>%arrange(desc(Frac))
+
+forw %>% filter(grepl("63",Acceptor)) %>% group_by(Donor, Acceptor, MHC_variants) %>% summarize(Frac=sum(Frac), freq=n())%>%arrange(desc(Frac))
+```
+
+```{r}
+#
+rev %>% filter(grepl("28",Acceptor)) %>% group_by(Donor, Acceptor, MHC_variants) %>% summarize(Frac=sum(Frac), freq=n())%>%arrange(desc(Frac))
+
+forw %>% filter(grepl("28",Acceptor)) %>% group_by(Donor, Acceptor, MHC_variants) %>% summarize(Frac=sum(Frac), freq=n())%>%arrange(desc(Frac))
+```

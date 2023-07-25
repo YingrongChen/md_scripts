@@ -1,0 +1,132 @@
+---
+title: "hbt_dat"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(ggplot2)
+library(stringr)
+library(dplyr)
+library(patchwork)
+library(tidyr)
+getwd()
+```
+
+```{r}
+setwd('/dors/meilerlab/home/chey120/mhcii_asyn/Data')
+trial0 = read.table("trial0_backbond_hbt.dat",col.names= c("Acceptor","DonorH", "Donor", "Frames","Frac","AvgDist", "AvgAng", "protein")) 
+trial1 = read.table("trial1_backbond_hbt.dat",col.names= c("Acceptor","DonorH", "Donor", "Frames","Frac","AvgDist", "AvgAng", "protein"))
+trial2 = read.table("trial2_backbond_hbt.dat",col.names= c("Acceptor","DonorH", "Donor", "Frames","Frac","AvgDist", "AvgAng", "protein"))
+trial3 = read.table("trial3_backbond_hbt.dat",col.names= c("Acceptor","DonorH", "Donor", "Frames","Frac","AvgDist", "AvgAng", "protein"))
+
+all_bonds <- trial0 %>%
+  full_join(trial1, by = c("protein", "Acceptor","DonorH", "Donor")) %>%
+  full_join(trial2, by = c("protein", "Acceptor","DonorH", "Donor")) %>%
+  full_join(trial3, by = c("protein", "Acceptor","DonorH", "Donor")) 
+```
+
+```{r}
+DNEAY <- all_bonds %>% 
+  separate(protein, c("peptide", "MHC_variants", "Direction")) %>%
+  filter(peptide=="DNEAY" | peptide=="phosDNEAY") %>% 
+  rowwise() %>% 
+  mutate(Frac = sum(Frac.x, Frac.y, Frac.x.x, Frac.y.y, na.rm = TRUE), Direction = replace_na(Direction, "forw")) %>%
+  arrange(desc(Frac)) 
+  #select("peptide", "MHC_variants", "Direction", "Acceptor","DonorH","Donor", "Frac") 
+
+#%>%
+ # separate(Acceptor, c("A_res", "A_atom"), sep = "_") %>% 
+  #separate(Donor, c("D_res", "D_atom"), sep = "_") %>% 
+  #separate(D_atom, c("D_resid", "D_atom"), sep = "@") %>% 
+  #separate(A_atom, c("A_resid", "A_atom"), sep = "@") 
+
+plotDNEAY <- DNEAY %>%
+  filter(Frac > 0.5)%>%
+  unite("Hbond", Acceptor:Donor, remove = FALSE) %>%
+  separate(Acceptor, c("A_res", "A_atom"), sep = "_") %>% 
+  separate(Donor, c("D_res", "D_atom"), sep = "_") %>% 
+  separate(D_atom, c("D_resid", "D_atom"), sep = "@") %>% 
+  separate(A_atom, c("A_resid", "A_atom"), sep = "@") %>%
+  arrange(desc(D_resid,A_resid))
+
+plotDNEAY%>%
+  ggplot() + 
+  geom_point(aes(x=Hbond, y=Frac.x), color='blue')  +   
+  geom_point(aes(x=Hbond, y=Frac.y), color='red')  +   
+  geom_point(aes(x=Hbond, y=Frac.x.x), color='darkgreen') +
+  geom_point(aes(x=Hbond, y=Frac.y.y), color='gold') +
+  facet_grid(vars(Direction),vars(peptide))
+```
+
+```{r}
+analysis <- DNEAY %>%
+  select("peptide", "MHC_variants", "Direction", "Acceptor","DonorH","Donor", "Frac") %>%
+  group_by(Acceptor, Donor, peptide, Direction) %>%
+  summarize(Frac=sum(Frac, na.rm = TRUE)) %>%
+  filter(Frac > 0.5) %>%
+  pivot_wider(names_from = peptide, values_from = Frac)
+
+more_phos_forw <- analysis %>% 
+  filter(phosDNEAY>DNEAY) %>% filter(Direction == "forw")
+less_phos_forw <- analysis %>% 
+  filter(phosDNEAY<DNEAY) %>% filter(Direction == "forw")
+
+more_phos_forw
+less_phos_forw
+```
+
+```{r}
+analysis <- DNEAY %>%
+  group_by(Acceptor, Donor, peptide, Direction) %>%
+  summarize(Frac=sum(Frac, na.rm = TRUE)) %>%
+  filter(Frac > 0.5) %>%
+  pivot_wider(names_from = peptide, values_from = Frac)
+
+more_phos_forw <- analysis %>% 
+  filter(phosDNEAY>DNEAY) %>% filter(Direction == "forw")
+less_phos_forw <- analysis %>% 
+  filter(phosDNEAY<DNEAY) %>% filter(Direction == "forw")
+
+more_phos_forw
+less_phos_forw
+```
+```{r}
+more_phos_rev <- analysis %>% 
+  filter(phosDNEAY>DNEAY) %>% filter(Direction == "rev")
+less_phos_rev <- analysis %>% 
+  filter(phosDNEAY<DNEAY) %>% filter(Direction == "rev")
+
+more_phos_rev
+less_phos_rev
+```
+# Rev
+```{r sum}
+sum <- both_bonds %>%
+  group_by(Acceptor, Donor) %>%
+  summarize(Frac=sum(Frac.x) + sum(Frac.y), Frames=sum(Frames.x) + sum(Frames.y), freq=n())%>%
+  filter(Frac>0.4)%>%
+  arrange(desc(Frac))
+
+forw_sum <- both_bonds %>%
+  filter(is.na(Direction)) %>%
+  group_by(Acceptor, Donor) %>%
+  summarize(Frac=sum(Frac.x) + sum(Frac.y), Frames=sum(Frames.x) + sum(Frames.y), freq=n())%>%
+  filter(Frac>0.4)%>%
+  arrange(desc(Frac))
+
+rev_sum <- both_bonds %>%
+  filter(Direction == "rev") %>%
+  group_by(Acceptor, Donor) %>%
+  summarize(Frac=sum(Frac.x) + sum(Frac.y), Frames=sum(Frames.x) + sum(Frames.y), freq=n())%>%
+  filter(Frac>0.4)%>%
+  arrange(desc(Frac))
+```
+
+```{r out}
+out_forw <- forw_sum %>% separate(Acceptor, c("A_res", "A_atom"), sep = "_") %>% separate(Donor, c("D_res", "D_atom"), sep = "_") %>% mutate(out = str_c(":", A_atom," :", D_atom)) %>% select(out)
+
+out_rev <- rev_sum %>% separate(Acceptor, c("A_res", "A_atom"), sep = "_") %>% separate(Donor, c("D_res", "D_atom"), sep = "_") %>% mutate(out = str_c(":", A_atom," :", D_atom)) %>% select(out)
+
+write.table(out_forw, file = "/dors/meilerlab/home/chey120/mhcii_asyn/Data/DNEAY_forw.txt", row.names = FALSE, col.names = FALSE, quote = FALSE)
+write.table(out_rev, file = "/dors/meilerlab/home/chey120/mhcii_asyn/Data/DNEAY_rev.txt", row.names = FALSE, col.names = FALSE, quote = FALSE)
+```

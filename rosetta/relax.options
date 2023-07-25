@@ -1,0 +1,5 @@
+-relax:constrain_relax_to_start_coords true 
+-coord_constrain_sidechains true 
+-ramp_constraints false 
+-score:weights ref2015
+-nstruct 100				# Generate 100 model

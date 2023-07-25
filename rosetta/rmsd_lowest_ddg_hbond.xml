@@ -1,0 +1,33 @@
+<ROSETTASCRIPTS>
+  	<RESIDUE_SELECTORS>
+		<Chain name="pep" chains="C"/>
+		<Neighborhood name="pep_neighbors">
+        	<Chain chains="C"/>
+      	</Neighborhood>
+  	</RESIDUE_SELECTORS>
+	<SIMPLE_METRICS>
+		<RMSDMetric name="rmsd" rmsd_type="rmsd_protein_bb_ca" use_native="1" super="true"/>
+		<HbondMetric name="h_bond" residue_selector="pep"/>
+		<InteractionEnergyMetric name="interaction" residue_selector="pep" residue_selector2="pep_neighbors"/>
+		<ResidueSummaryMetric name="sum" custom_type="h_sum" metric="h_bond" action="sum"/>
+	</SIMPLE_METRICS>
+	<TASKOPERATIONS>
+		<RestrictToRepacking name="rtrp"/>
+	</TASKOPERATIONS>
+	<MOVERS>
+		<ddG name="ddg" scorefxn="REF2015" jump="2" compute_rmsd="true" repack_unbound="true" 
+		repack_bound="true" relax_unbound="true" relax_bound="true" task_operations="rtrp"/>
+		<RunSimpleMetrics name="run1" metrics="rmsd" suffix="vs_lowest"/>
+		<RunSimpleMetrics name="run2" metrics="h_bond,sum"/>
+		<RunSimpleMetrics name="run3" metrics="interaction"/>
+	</MOVERS>
+	<FILTERS>
+	</FILTERS>
+	<PROTOCOLS>
+		Add mover_name="ddg"/
+		<Add mover_name="run1"/>
+		Add mover_name="run2"/
+		Add mover_name="run3"/
+	</PROTOCOLS>
+	<OUTPUT/>
+</ROSETTASCRIPTS>

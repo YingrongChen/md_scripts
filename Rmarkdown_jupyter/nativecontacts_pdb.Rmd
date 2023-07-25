@@ -1,0 +1,97 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+```{r}
+library(ggplot2)
+library(stringr)
+library(dplyr)
+library(patchwork)
+library(tidyr)
+library(matrixStats)
+library(tidyverse)
+
+```
+
+```{r input}
+mhcii_asyn_bfactor <- read_csv("~/mhcii_data/nativecontacts_pdb/mhcii_asyn_bfactor.csv")
+tcr_asyn_bfactor <- read_csv("~/mhcii_data/nativecontacts_pdb/tcr_asyn_bfactor.csv")
+tcr_mhcii_bfactor <- read_csv("~/mhcii_data/nativecontacts_pdb/tcr_mhcii_bfactor.csv")
+```
+
+```{r data manipulation}
+#summary(tcr_mhcii)
+#mhcii_asyn_avgtrials <- mhcii_asyn_bfactor %>%
+#  group_by(resseq, Protein, Chain) %>%
+#  summarise(fac_mean = mean(tempfactor), fac_sd = sd(tempfactor))
+
+tcr_mhcii_avgtrials <- tcr_mhcii_bfactor %>%
+  group_by(resseq, DNEAY, Chain, Protein) %>%
+  summarise(fac_mean = mean(tempfactor), fac_sd = sd(tempfactor))
+
+tcr_asyn_avgtrials <- tcr_asyn_bfactor %>%
+  group_by(resseq, DNEAY, Chain, Protein) %>%
+  summarise(fac_mean = mean(tempfactor), fac_sd = sd(tempfactor))
+```
+```{r tcr_asyn plot}
+tcr_asyn_avgtrials %>%
+  filter(DNEAY==TRUE)%>%
+  ggplot()+
+  geom_point(aes(x=resseq, y=fac_mean, color = Chain))+
+  facet_grid(, vars(Protein))+
+  geom_errorbar(aes(x=resseq, ymin=fac_mean-fac_sd, ymax=fac_mean+fac_sd, color = Chain), width=.1,
+                 position=position_dodge(0.05))+
+  theme(panel.grid=element_blank(), legend.position="bottom", legend.box = "horizontal")+
+  labs(x = "Residue Number", y = "Relative Contact Strength")#+
+  #geom_text(aes(x=resseq, y=fac_mean, color = Chain, label=resseq), hjust=0, vjust=0)
+
+tcr_asyn_avgtrials %>%
+  filter(DNEAY==FALSE)%>%
+  ggplot()+
+  geom_point(aes(x=resseq, y=fac_mean, color = Chain, label=resseq))+
+  facet_grid(, vars(Protein))+
+  geom_errorbar(aes(x=resseq, ymin=fac_mean-fac_sd, ymax=fac_mean+fac_sd, color = Chain), width=.1,
+                 position=position_dodge(0.05))+
+  theme(panel.grid=element_blank(), legend.position="bottom", legend.box = "horizontal")+
+  labs(x = "Residue Number", y = "Relative Contact Strength")#+
+  #geom_text(aes(x=resseq, y=fac_mean, color = Chain, label=resseq), hjust=0, vjust=0)
+```
+
+```{r tcr_mhcii plot}
+#[contactpdb <file>] Write PDB with B-factor column containing relative contact strength for native contacts (strongest is 100.0).
+
+tcr_mhcii_avgtrials %>%
+  filter(DNEAY==TRUE)%>%
+  ggplot()+
+  geom_point(aes(x=resseq, y=fac_mean, color = Chain))+
+  facet_grid(, vars(Protein))+
+  geom_errorbar(aes(x=resseq, ymin=fac_mean-fac_sd, ymax=fac_mean+fac_sd, color = Chain), width=.1,
+                 position=position_dodge(0.05))+
+  theme(panel.grid=element_blank(), legend.position="bottom", legend.box = "horizontal")+
+  labs(x = "Residue Number", y = "Relative Contact Strength")#+
+  #geom_text(aes(x=resseq, y=fac_mean, color = Chain, label=resseq), hjust=0, vjust=0)
+
+tcr_mhcii_avgtrials %>%
+  filter(DNEAY==FALSE)%>%
+  ggplot()+
+  geom_point(aes(x=resseq, y=fac_mean, color = Chain, label=resseq))+
+  facet_grid(, vars(Protein))+
+  geom_errorbar(aes(x=resseq, ymin=fac_mean-fac_sd, ymax=fac_mean+fac_sd, color = Chain), width=.1,
+                 position=position_dodge(0.05))+
+  theme(panel.grid=element_blank(), legend.position="bottom", legend.box = "horizontal")+
+  labs(x = "Residue Number", y = "Relative Contact Strength")#+
+  #geom_text(aes(x=resseq, y=fac_mean, color = Chain, label=resseq), hjust=0, vjust=0)
+```
+```{r}
+ggplot(data = tcr_mhcii, aes(MHCII_res))+
+  geom_histogram(stat="count")
+ggplot(data = tcr_mhcii, aes(TCR_res))+
+  geom_histogram(stat="count")
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
