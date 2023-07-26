@@ -14,7 +14,7 @@ library(matrixStats)
 ```
 
 ```{r peptide_input}
-setwd('/dors/meilerlab/home/chey120/mhcii_asyn/Data/rmsf')
+setwd('/dors/meilerlab/home/chey120/chainA_chainA/Data/rmsf')
 MD0 = read.table("trial0_peptide_rmsf.dat",col.names= c("Resid","rmsf", "protein")) %>%
   separate(protein, c("peptide", "MHC_variants", "Direction")) %>%
   mutate(Resid=Resid-180, Direction = replace_na(Direction, "forw"))
@@ -32,20 +32,20 @@ MD4 = read.table("trial4_peptide_rmsf.dat",col.names= c("Resid","rmsf", "protein
   mutate(Resid=Resid-180, Direction = replace_na(Direction, "forw"))
 ```
 
-```{r mhcii_input}
-mhcii0 = read.table("trial0_mhcii_rmsf.dat",col.names= c("Resid","rmsf", "protein")) %>%
+```{r chainA_input}
+chainA0 = read.table("trial0_chainA_rmsf.dat",col.names= c("Resid","rmsf", "protein")) %>%
   separate(protein, c("peptide", "MHC_variants", "Direction")) %>%
   mutate(Direction = replace_na(Direction, "forw"))
-mhcii1 = read.table("trial1_mhcii_rmsf.dat",col.names= c("Resid","rmsf", "protein")) %>%
+chainA1 = read.table("trial1_chainA_rmsf.dat",col.names= c("Resid","rmsf", "protein")) %>%
   separate(protein, c("peptide", "MHC_variants", "Direction")) %>%
   mutate(Direction = replace_na(Direction, "forw"))
-mhcii2 = read.table("trial2_mhcii_rmsf.dat",col.names= c("Resid","rmsf", "protein")) %>%
+chainA2 = read.table("trial2_chainA_rmsf.dat",col.names= c("Resid","rmsf", "protein")) %>%
   separate(protein, c("peptide", "MHC_variants", "Direction")) %>%
   mutate(Direction = replace_na(Direction, "forw"))
-mhcii3 = read.table("trial3_mhcii_rmsf.dat",col.names= c("Resid","rmsf", "protein")) %>%
+chainA3 = read.table("trial3_chainA_rmsf.dat",col.names= c("Resid","rmsf", "protein")) %>%
   separate(protein, c("peptide", "MHC_variants", "Direction")) %>%
   mutate(Direction = replace_na(Direction, "forw"))
-mhcii4 = read.table("trial4_mhcii_rmsf.dat",col.names= c("Resid","rmsf", "protein")) %>%
+chainA4 = read.table("trial4_chainA_rmsf.dat",col.names= c("Resid","rmsf", "protein")) %>%
   separate(protein, c("peptide", "MHC_variants", "Direction")) %>%
   mutate(Direction = replace_na(Direction, "forw"))
 ```
@@ -87,35 +87,35 @@ ggplot(MD, aes(x=Resid, y=avg, color=MHC_variants)) +
   facet_grid(vars(peptide), vars(Direction))
 ```
 
-```{r mhcii_plot, echo=FALSE}
+```{r chainA_plot, echo=FALSE}
 ggplot() +
-  geom_point(data=mhcii0, aes(x=Resid, y=rmsf), color='blue')  +   
-  geom_point(data=mhcii1, aes(x=Resid, y=rmsf), color='red')  +   
-  geom_point(data=mhcii2, aes(x=Resid, y=rmsf), color='darkgreen') +
-  geom_point(data=mhcii3, aes(x=Resid, y=rmsf), color='gold') +
-  geom_point(data=mhcii4, aes(x=Resid, y=rmsf), color='purple') +
+  geom_point(data=chainA0, aes(x=Resid, y=rmsf), color='blue')  +   
+  geom_point(data=chainA1, aes(x=Resid, y=rmsf), color='red')  +   
+  geom_point(data=chainA2, aes(x=Resid, y=rmsf), color='darkgreen') +
+  geom_point(data=chainA3, aes(x=Resid, y=rmsf), color='gold') +
+  geom_point(data=chainA4, aes(x=Resid, y=rmsf), color='purple') +
   facet_grid(vars(peptide), vars(Direction)) +   
   labs(caption="blue=trial0, red=trial1, green=trial2, yellow = trial3, purple = trial4")
 ```
 
-```{r mhcii_join}
-mhcii_avg<-mhcii0 %>%
-  full_join(mhcii1, by=c("peptide", "MHC_variants", "Direction","Resid")) %>%
-  full_join(mhcii2, by=c("peptide", "MHC_variants", "Direction","Resid")) %>%
-  full_join(mhcii3, by=c("peptide", "MHC_variants", "Direction","Resid")) %>%
-  full_join(mhcii4, by=c("peptide", "MHC_variants", "Direction","Resid")) %>%
+```{r chainA_join}
+chainA_avg<-chainA0 %>%
+  full_join(chainA1, by=c("peptide", "MHC_variants", "Direction","Resid")) %>%
+  full_join(chainA2, by=c("peptide", "MHC_variants", "Direction","Resid")) %>%
+  full_join(chainA3, by=c("peptide", "MHC_variants", "Direction","Resid")) %>%
+  full_join(chainA4, by=c("peptide", "MHC_variants", "Direction","Resid")) %>%
   mutate(avg=rowMeans(.[c("rmsf.x","rmsf.y","rmsf.x.x","rmsf.y.y","rmsf")], na.rm=TRUE)) %>%
   mutate(sd=rowSds(as.matrix(.[c("rmsf.x","rmsf.y","rmsf.x.x","rmsf.y.y","rmsf")], na.rm=TRUE)))
 
-ggplot(mhcii_avg, aes(x=Resid, y=avg, color=MHC_variants)) + 
+ggplot(chainA_avg, aes(x=Resid, y=avg, color=MHC_variants)) + 
   geom_point()+
   geom_errorbar(aes(ymin=avg-sd, ymax=avg+sd), width=.2,
                  position=position_dodge(0.05))+
   facet_grid(vars(peptide), vars(Direction))
 ```
 
-```{r mhcii_phosphorylation_plot}
-mhcii_avg %>%
+```{r chainA_phosphorylation_plot}
+chainA_avg %>%
   filter(Direction=="forw")%>%
   filter(peptide == "DNEAY"|peptide == "phosDNEAY")%>%
   ggplot(aes(x=Resid, y=avg, color=MHC_variants)) + 
@@ -124,7 +124,7 @@ mhcii_avg %>%
                  position=position_dodge(0.05))+
   facet_grid(vars(peptide), vars(Direction))
 
-#mhcii_avg %>%
+#chainA_avg %>%
   #filter(peptide == "DNEAY"|peptide == "phosDNEAY")%>%
  # filter(Direction=="forw")%>%
   #ggplot() +
@@ -132,14 +132,14 @@ mhcii_avg %>%
 ```
 
 ```{r mchii_high_rmsf}
-mhcii_A = mhcii_avg %>%
+chainA_A = chainA_avg %>%
   filter(peptide == "DNEAY"|peptide == "phosDNEAY")%>%
   filter(Direction=="forw")%>%
   filter(Resid>5 & Resid < 82) %>%
   arrange(desc(avg))
-head(mhcii_A, 80)
+head(chainA_A, 80)
 
-mhcii_A %>%
+chainA_A %>%
   ggplot() +
   #geom_line(aes(x=Resid, y=rmsf.0), color='blue')  +   
   geom_line(aes(x=Resid, y=rmsf.x), color='red')  +   
@@ -148,7 +148,7 @@ mhcii_A %>%
   geom_line(aes(x=Resid, y=rmsf.y.y), color='purple') +
   facet_grid(vars(peptide), vars(Direction))
 
-mhcii_A %>%
+chainA_A %>%
   ggplot(aes(x=Resid, y=avg, color=peptide)) +
   geom_point() +  
   geom_errorbar(aes(ymin=avg-sd, ymax=avg+sd), width=.1, position=position_dodge(0.05))+
@@ -157,14 +157,14 @@ mhcii_A %>%
 ```
 
 ```{r mchii_high_rmsf}
-mhcii_B = mhcii_avg %>%
+chainA_B = chainA_avg %>%
   filter(peptide == "DNEAY"|peptide == "phosDNEAY")%>%
   filter(Direction=="forw")%>%
   filter(Resid>88 & Resid < 173) %>%
   arrange(desc(avg))
-head(mhcii_B, 80)
+head(chainA_B, 80)
 
-mhcii_B %>%
+chainA_B %>%
   ggplot() +
   geom_line(aes(x=Resid, y=rmsf), color='blue')  +   
   geom_line(aes(x=Resid, y=rmsf.x), color='red')  +   
@@ -173,11 +173,11 @@ mhcii_B %>%
   geom_line(aes(x=Resid, y=rmsf.y.y), color='purple') +
   facet_grid(vars(peptide), vars(Direction))
 
-mhcii_B %>%
+chainA_B %>%
   ggplot() +
   geom_line(aes(x=Resid, y=avg, color=peptide)) 
 
-mhcii_B %>%
+chainA_B %>%
   filter(Resid>88 & Resid < 173) %>%
   ggplot(aes(x=Resid, y=avg, color=peptide)) +
   geom_point() +  

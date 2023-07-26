@@ -24,5 +24,5 @@ LIST=`readlink -e $1` # by readlink -e */trial0 > dir_list
 for file in `cat ${LIST}`; do
 file=`basename $file`
 # awk '{ print $2 }' $file > temp_${file}
-python /dors/meilerlab/home/chey120/mhcii_asyn/scripts/md/dwell_time.py ${file}
+python /dors/meilerlab/home/chey120/chainA_chainA/scripts/md/dwell_time.py ${file}
 done

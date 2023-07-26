@@ -1,5 +1,5 @@
 res=$1
-bash /home/chey120/mhcii_asyn/scripts/filehandle/rename.sh
+bash /home/chey120/chainA_chainA/scripts/filehandle/rename.sh
 
 cat > add_mols_traj.tcl << EOF
 # Clear the current molecules in VMD

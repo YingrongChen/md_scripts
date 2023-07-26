@@ -4,8 +4,8 @@
 # compute rmsd with respect to the lowest energy geometry
 
 ROSETTA=/dors/meilerlab/apps/rosetta/rosetta-3.13/main/source/bin
-ANALYSIS=/dors/meilerlab/home/chey120/mhcii_asyn/Y39/analysis
-SCRIPTS=/dors/meilerlab/home/chey120/mhcii_asyn/scripts
+ANALYSIS=/dors/meilerlab/home/chey120/chainA_chainA/Y39/analysis
+SCRIPTS=/dors/meilerlab/home/chey120/chainA_chainA/scripts
 
 
 for dir in $(ls -d */); do
@@ -37,4 +37,4 @@ for dir in $(ls -d */); do
     cd $ANALYSIS
 done &
 
-#/dors/meilerlab/apps/rosetta/rosetta-3.13/main/source/bin/rosetta_scripts.default.linuxgccrelease -in:file:native 4gg6.pdb -parser:protocol /dors/meilerlab/home/chey120/mhcii_asyn/scripts/rosetta/rmsd_lowest_ddg_hbond.xml -out:file:scorefile rmsd.sc
+#/dors/meilerlab/apps/rosetta/rosetta-3.13/main/source/bin/rosetta_scripts.default.linuxgccrelease -in:file:native 4gg6.pdb -parser:protocol /dors/meilerlab/home/chey120/chainA_chainA/scripts/rosetta/rmsd_lowest_ddg_hbond.xml -out:file:scorefile rmsd.sc

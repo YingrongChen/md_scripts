@@ -8,7 +8,7 @@
 #SBATCH --output=relax.%j.log
 #SBATCH --reservation=md_simulation_brown_chen
 
-#bash /dors/meilerlab/home/chey120/mhcii_asyn/scripts/rosetta/relax.sh
+#bash /dors/meilerlab/home/chey120/chainA_chainA/scripts/rosetta/relax.sh
 
 # for file in *-1.pdb; do
 #     cat DNEAY_5ni9_1.pdb >> "$file"

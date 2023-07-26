@@ -1,5 +1,4 @@
-#bash /dors/meilerlab/home/chey120/mhcii_asyn/scripts/md_analysis/crd_out.sh to_process
-source /dors/meilerlab/home/brownbp1/PowerCoding_10-24-2020/MD_Simulations/environment_control/amber18_environment.bash.txt
+#bash /crd_out.sh to_process
 
 LIST=`readlink -e $1` # by readlink -e */trial0 > dir_list
 PROCESSORS=10			# Number of parallel processes
@@ -14,7 +13,7 @@ PROTEIN=${PROTEIN#*prod/*} #remove things before prod/
 echo $Trial $PROTEIN
 
 RESTART=`ls ${PROTEIN}_prod.*.crd | tail -n1 | awk -F. '{print $(NF-1)}'`
-if [[ $RESTART == 0100 ]] && [ -f ${PROTEIN}_${Trial}_mhcii_rmsf.dat ]; then
+if [[ $RESTART == 0100 ]] && [ -f ${PROTEIN}_${Trial}_chainA_rmsf.dat ]; then
 
 # cat > crd.in << EOF
 # parm ${PROTEIN}*.parm7 

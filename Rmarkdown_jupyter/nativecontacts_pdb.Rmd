@@ -14,27 +14,27 @@ library(tidyverse)
 ```
 
 ```{r input}
-mhcii_asyn_bfactor <- read_csv("~/mhcii_data/nativecontacts_pdb/mhcii_asyn_bfactor.csv")
-tcr_asyn_bfactor <- read_csv("~/mhcii_data/nativecontacts_pdb/tcr_asyn_bfactor.csv")
-tcr_mhcii_bfactor <- read_csv("~/mhcii_data/nativecontacts_pdb/tcr_mhcii_bfactor.csv")
+chainA_chainA_bfactor <- read_csv("~/chainA_data/nativecontacts_pdb/chainA_chainA_bfactor.csv")
+tcr_chainA_bfactor <- read_csv("~/chainA_data/nativecontacts_pdb/tcr_chainA_bfactor.csv")
+tcr_chainA_bfactor <- read_csv("~/chainA_data/nativecontacts_pdb/tcr_chainA_bfactor.csv")
 ```
 
 ```{r data manipulation}
-#summary(tcr_mhcii)
-#mhcii_asyn_avgtrials <- mhcii_asyn_bfactor %>%
+#summary(tcr_chainA)
+#chainA_chainA_avgtrials <- chainA_chainA_bfactor %>%
 #  group_by(resseq, Protein, Chain) %>%
 #  summarise(fac_mean = mean(tempfactor), fac_sd = sd(tempfactor))
 
-tcr_mhcii_avgtrials <- tcr_mhcii_bfactor %>%
+tcr_chainA_avgtrials <- tcr_chainA_bfactor %>%
   group_by(resseq, DNEAY, Chain, Protein) %>%
   summarise(fac_mean = mean(tempfactor), fac_sd = sd(tempfactor))
 
-tcr_asyn_avgtrials <- tcr_asyn_bfactor %>%
+tcr_chainA_avgtrials <- tcr_chainA_bfactor %>%
   group_by(resseq, DNEAY, Chain, Protein) %>%
   summarise(fac_mean = mean(tempfactor), fac_sd = sd(tempfactor))
 ```
-```{r tcr_asyn plot}
-tcr_asyn_avgtrials %>%
+```{r tcr_chainA plot}
+tcr_chainA_avgtrials %>%
   filter(DNEAY==TRUE)%>%
   ggplot()+
   geom_point(aes(x=resseq, y=fac_mean, color = Chain))+
@@ -45,7 +45,7 @@ tcr_asyn_avgtrials %>%
   labs(x = "Residue Number", y = "Relative Contact Strength")#+
   #geom_text(aes(x=resseq, y=fac_mean, color = Chain, label=resseq), hjust=0, vjust=0)
 
-tcr_asyn_avgtrials %>%
+tcr_chainA_avgtrials %>%
   filter(DNEAY==FALSE)%>%
   ggplot()+
   geom_point(aes(x=resseq, y=fac_mean, color = Chain, label=resseq))+
@@ -57,10 +57,10 @@ tcr_asyn_avgtrials %>%
   #geom_text(aes(x=resseq, y=fac_mean, color = Chain, label=resseq), hjust=0, vjust=0)
 ```
 
-```{r tcr_mhcii plot}
+```{r tcr_chainA plot}
 #[contactpdb <file>] Write PDB with B-factor column containing relative contact strength for native contacts (strongest is 100.0).
 
-tcr_mhcii_avgtrials %>%
+tcr_chainA_avgtrials %>%
   filter(DNEAY==TRUE)%>%
   ggplot()+
   geom_point(aes(x=resseq, y=fac_mean, color = Chain))+
@@ -71,7 +71,7 @@ tcr_mhcii_avgtrials %>%
   labs(x = "Residue Number", y = "Relative Contact Strength")#+
   #geom_text(aes(x=resseq, y=fac_mean, color = Chain, label=resseq), hjust=0, vjust=0)
 
-tcr_mhcii_avgtrials %>%
+tcr_chainA_avgtrials %>%
   filter(DNEAY==FALSE)%>%
   ggplot()+
   geom_point(aes(x=resseq, y=fac_mean, color = Chain, label=resseq))+
@@ -83,9 +83,9 @@ tcr_mhcii_avgtrials %>%
   #geom_text(aes(x=resseq, y=fac_mean, color = Chain, label=resseq), hjust=0, vjust=0)
 ```
 ```{r}
-ggplot(data = tcr_mhcii, aes(MHCII_res))+
+ggplot(data = tcr_chainA, aes(MHCII_res))+
   geom_histogram(stat="count")
-ggplot(data = tcr_mhcii, aes(TCR_res))+
+ggplot(data = tcr_chainA, aes(TCR_res))+
   geom_histogram(stat="count")
 ```
 

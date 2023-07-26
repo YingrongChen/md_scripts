@@ -1,4 +1,4 @@
-#bash /dors/meilerlab/home/chey120/mhcii_asyn/scripts/filehandle/rename.sh
+#bash /dors/meilerlab/home/chey120/chainA_chainA/scripts/filehandle/rename.sh
 
 for file in */*
 do
@@ -12,7 +12,7 @@ do
 #   mv "$file" "${file/_5ni9_4x5w_trial/_5ni9_trial}"
 # fi
 # if [[ $file == *_peptide_* ]]; then
-#   mv "$file" "${file/_peptide_/_asyn_}"
+#   mv "$file" "${file/_peptide_/_chainA_}"
 # fi
 # if [[ $file == *stripped.* ]]; then
 #   mv "$file" "${file/stripped./}"

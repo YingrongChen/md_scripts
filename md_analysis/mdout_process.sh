@@ -1,6 +1,6 @@
 ######
 # cpptraj: combine NC's to a combine and a offseted versions, calculate RMSF, hydrogen bond, native contacts between two chains
-# bash md_analysis/mdout_nonTCR_process.sh to_process
+# bash mdout_nonTCR_process.sh to_process
 ######
 LIST=`readlink -e $1` # by readlink -e */trial0 > dir_list
 PROCESSORS=10			# Number of parallel processes
