@@ -1,7 +1,7 @@
 
 import os
 
-out = "/ssd1/chey120/workspace/chainA_chainA/Y39_mut"
+out = "chainA_chainA/Y39_mut"
 
 # the chain ID and the residue index of the peptide sequence to be replaced
 chain = 'C'

@@ -2,10 +2,9 @@
 
 #!/bin/csh
 
-ROSETTA=/dors/meilerlab/apps/rosetta/rosetta-3.13/main/source/bin
-# RELAX=/dors/meilerlab/home/chey120/chainA_chainA/Y39/relax
-# HIGHRES=/dors/meilerlab/home/chey120/chainA_chainA/Y39/highres
-DATA=/ssd1/chey120/workspace/chainA_chainA/chainA.db3
+ROSETTA=rosetta/rosetta-3.13/main/source/bin
+# RELAX=relax
+# HIGHRES=highres
 #rosetta command line
 for file in `ls *.pdb`;
 do
