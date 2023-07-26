@@ -36,24 +36,6 @@ foreach $i ( TEMP, TSOLUTE, TSOLVENT, PRES, EKCMT, ETOT, EKTOT, EPTOT, DENSITY, 
 	print OUTPUT "$j  ", $outarray{$j}, "\n";
     }
     close (OUTPUT);
-
-    # print "Outputing summary_avg.$i\n";
-    # open(OUTPUT, "> summary_avg.$i");
-    # %outarray = eval "\%AVG_$i";
-    # foreach $j ( @sortedavgkeys ) {
-	# print OUTPUT "$j  ", $outarray{$j}, "\n";
-    # }
-    # close (OUTPUT);
-
-    # print "Outputing summary_rms.$i\n";
-    # open(OUTPUT, "> summary_rms.$i");
-    # %outarray = eval "\%RMS_$i";
-    # foreach $j ( @sortedavgkeys ) {
-	# print OUTPUT "$j  ", $outarray{$j}, "\n";
-    # }
-    # close (OUTPUT);
-
-
 }
 
 
