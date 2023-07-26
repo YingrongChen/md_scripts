@@ -1,4 +1,4 @@
-#bash /dors/meilerlab/home/chey120/chainA_chainA/scripts/vmd_msm.sh "185 189"
+#bash vmd_msm.sh "185 189"
 
 res=$1
 cat > add_mols_traj.tcl << EOF
@@ -30,4 +30,4 @@ foreach file \$filelist {
 
 EOF
 
-/sb/meilerapps/Linux2/x86_64/bin/vmd -e add_mols_traj.tcl
+vmd -e add_mols_traj.tcl

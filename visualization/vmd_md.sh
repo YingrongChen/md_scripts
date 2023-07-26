@@ -1,5 +1,4 @@
 res=$1
-bash /home/chey120/mhcii_asyn/scripts/filehandle/rename.sh
 
 cat > add_mols_traj.tcl << EOF
 # Clear the current molecules in VMD
@@ -47,4 +46,4 @@ animate goto 0
 
 EOF
 
-/sb/meilerapps/Linux2/x86_64/bin/vmd -e add_mols_traj.tcl
+vmd -e add_mols_traj.tcl
