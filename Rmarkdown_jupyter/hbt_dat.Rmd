@@ -12,7 +12,7 @@ library(tidyr)
 ```
 
 ```{r}
-setwd('/dors/meilerlab/home/chey120/mhcii_asyn/MD/prod')
+setwd('/dors/meilerlab/home/chey120/chainA_chainA/MD/prod')
 h_bond = read.table("trial0_backbond_hbt.dat",col.names= c("Acceptor","DonorH", "Donor", "Frames","Frac","AvgDist", "AvgAng", "protein")) %>% separate(protein, c("peptide", "MHC_variants", "Direction"))
 ```
 

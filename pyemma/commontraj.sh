@@ -1,18 +1,8 @@
 #!/bin/bash
-#SBATCH --ntasks=1
-#SBATCH --nodes=1
-#SBATCH --tasks-per-node=1
-#SBATCH --mem=30G
-#SBATCH --time=2-00:00:00
-#SBATCH --job-name=cpptraj
-#SBATCH --output=cpptraj.%j.log
-#SBATCH --mail-user=ych2429@emory.edu
-#SBATCH --mail-type=END,FAIL
 
-source /dors/meilerlab/home/brownbp1/PowerCoding_10-24-2020/MD_Simulations/environment_control/amber18_environment.bash.txt
 
 LIST=`readlink -e $1` # by readlink -e */trial0 > dir_list
-END_DIR=/dors/meilerlab/home/chey120/mhcii_asyn/commontraj
+END_DIR=/dors/meilerlab/home/chey120/chainA_chainA/commontraj
 for dir in `cat ${LIST}`; do
 cd $dir
 Trial=`basename $dir`

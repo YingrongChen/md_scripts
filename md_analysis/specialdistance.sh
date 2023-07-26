@@ -1,19 +1,10 @@
 #!/bin/bash
-#SBATCH --ntasks=1
-#SBATCH --nodes=1
-#SBATCH --tasks-per-node=1
-#SBATCH --mem=10G
-#SBATCH --time=2-00:00:00
-#SBATCH --job-name=distance
-#SBATCH --output=distance.%j.log
-#SBATCH --reservation=md_simulation_brown_chen
 
-#bash /dors/meilerlab/home/chey120/mhcii_asyn/scripts/md_analysis/specialdistance.sh to_process
-source /dors/meilerlab/home/brownbp1/PowerCoding_10-24-2020/MD_Simulations/environment_control/amber18_environment.bash.txt
+#bash /specialdistance.sh to_process
 
 LIST=`readlink -e $1` # by readlink -e */trial0 > dir_list
-asyn=":180-196&!@H="
-mhcii=":1-179&!@H="
+chainA=":180-196&!@H="
+chainA=":1-179&!@H="
 cut="5.0"
 
 # Loop over all proteins in the list
@@ -78,8 +69,8 @@ if [ -f "${PROTEIN}_${Trial}_prod.offset_combine.nc" ]; then
 # distance :47-49 :157-159 out ${PROTEIN}_${Trial}_tcrwidth2.dat
 # distance :47-49 :203-208 out ${PROTEIN}_${Trial}_tcrwidth1.dat
 # distance :64@CZ :380@CG out ${PROTEIN}_${Trial}_64d380.dat
-# distance :283-293 :367-378 out ${PROTEIN}_${Trial}_mhciiwidth.dat
-# distance :401-415 :1-221 out ${PROTEIN}_${Trial}_asyndTCR.dat
+# distance :283-293 :367-378 out ${PROTEIN}_${Trial}_chainAwidth.dat
+# distance :401-415 :1-221 out ${PROTEIN}_${Trial}_chainAdTCR.dat
 # distance :222-400 :1-221 out ${PROTEIN}_${Trial}_mhcdTCR.dat
 # distance :94 :279 out ${PROTEIN}_${Trial}_94d279.dat
 # distance :111-221 :286-287 out ${PROTEIN}_${Trial}_Bd286.dat
@@ -95,8 +86,8 @@ autoimage
 #TCR-pMHC
 distance :241-243 :377-379 out ${PROTEIN}_${Trial}_tcrwidth2.dat
 distance :241-243 :203-208 out ${PROTEIN}_${Trial}_tcrwidth1.dat
-distance :62-72 :146-157 out ${PROTEIN}_${Trial}_mhciiwidth.dat
-distance :180-194 :195-415 out ${PROTEIN}_${Trial}_asyndTCR.dat
+distance :62-72 :146-157 out ${PROTEIN}_${Trial}_chainAwidth.dat
+distance :180-194 :195-415 out ${PROTEIN}_${Trial}_chainAdTCR.dat
 distance :1-179 :195-415 out ${PROTEIN}_${Trial}_mhcdTCR.dat
 distance :288 :58 out ${PROTEIN}_${Trial}_94d279.dat
 distance :305-415 :65-66 out ${PROTEIN}_${Trial}_Bd286.dat
