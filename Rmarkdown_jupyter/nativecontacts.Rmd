@@ -7,7 +7,7 @@ library(dplyr)
 ```
 
 ```{r input}
-tcr_mhcii = read.table("nativecontacts_tcr_mhcii.dat", comment = "#", col.names= c("Num", "Molecules","Frames","Frac","Avg", "Stdev", "Protein", "Trial")) %>%
+tcr_chainA = read.table("nativecontacts_tcr_chainA.dat", comment = "#", col.names= c("Num", "Molecules","Frames","Frac","Avg", "Stdev", "Protein", "Trial")) %>%
   mutate(Bonds=Molecules)%>%
   separate(Molecules, c("TCR", "MHCII"), sep = "_") %>%
   separate(TCR, c("TCR_res", "TCR_atom"), sep = "@")%>%
@@ -15,8 +15,8 @@ tcr_mhcii = read.table("nativecontacts_tcr_mhcii.dat", comment = "#", col.names=
 ```
 
 ```{r data manipulation}
-#summary(tcr_mhcii)
-sumbyres <- tcr_mhcii %>%
+#summary(tcr_chainA)
+sumbyres <- tcr_chainA %>%
   group_by(TCR_res,MHCII_res, Protein) %>%
   #select(TCR_res,MHCII_res, Frac, Avg) %>%
   summarise(Frac_mean = mean(Frac), Frac_sd = sd(Frac), Dist_mean = mean(Avg)) %>%
@@ -41,9 +41,9 @@ sumbyres %>%
   facet_grid(vars(Protein))
 ```
 ```{r}
-ggplot(data = tcr_mhcii, aes(MHCII_res))+
+ggplot(data = tcr_chainA, aes(MHCII_res))+
   geom_histogram(stat="count")
-ggplot(data = tcr_mhcii, aes(TCR_res))+
+ggplot(data = tcr_chainA, aes(TCR_res))+
   geom_histogram(stat="count")
 ```
 

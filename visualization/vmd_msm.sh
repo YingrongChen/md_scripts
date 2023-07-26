@@ -1,4 +1,4 @@
-#bash /dors/meilerlab/home/chey120/mhcii_asyn/scripts/vmd_msm.sh "185 189"
+#bash /dors/meilerlab/home/chey120/chainA_chainA/scripts/vmd_msm.sh "185 189"
 
 res=$1
 cat > add_mols_traj.tcl << EOF
