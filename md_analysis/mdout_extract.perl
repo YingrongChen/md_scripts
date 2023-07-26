@@ -1,6 +1,8 @@
 #!/usr/bin/perl
 
-#process_mdout.perl *out
+#export PATH=/dors/meilerlab/home/chey120/mhcii_asyn/scripts/md:${PATH}
+#chmod u+x /dors/meilerlab/home/chey120/mhcii_asyn/scripts/md/process_mdout.perl 
+# /dors/meilerlab/home/chey120/mhcii_asyn/scripts/md/process_mdout.perl *out
 if ($#ARGV < 0) {
     print "  Incorrect usage...\n";
     exit;

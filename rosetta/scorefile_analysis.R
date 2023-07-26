@@ -4,7 +4,7 @@ library(dplyr)
 library(patchwork)
 library(tidyr)
 
-setwd('/home/chey120/chainA_chainA/preMD_analysis')
+setwd('/home/chey120/mhcii_asyn/preMD_analysis')
 list_4x52=list.files(pattern="*_4x5w.sc")
 list_5ni9=list.files(pattern="*_5ni9.sc")
 list_4x52_rev=list.files(pattern="*4x5w_rev.sc")

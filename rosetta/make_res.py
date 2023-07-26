@@ -1,16 +1,16 @@
 
 import os
 
-out = "/ssd1/chey120/workspace/chainA_chainA/Y39_mut"
+out = "/ssd1/chey120/workspace/mhcii_asyn/Y39_mut"
 
 # the chain ID and the residue index of the peptide sequence to be replaced
 chain = 'C'
 ori = range(1,16)
 
-# input sequences of chainA to replaced the original peptide
-chainA = open("Y39_mutated.txt", "r")
-sequences = chainA.readlines()
-chainA.close()
+# input sequences of asyn to replaced the original peptide
+asyn = open("Y39_mutated.txt", "r")
+sequences = asyn.readlines()
+asyn.close()
 
 for seq_w in sequences:
   #strip the whitespace

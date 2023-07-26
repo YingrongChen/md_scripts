@@ -1,8 +1,8 @@
 #!/bin/csh
 
 ROSETTA=/ssd1/chey120/workspace/Rosetta/main/source/bin
-RES=/ssd1/chey120/workspace/chainA_chainA/Y39_mut
-OUT=/ssd1/chey120/workspace/chainA_chainA/Y39_mut
+RES=/ssd1/chey120/workspace/mhcii_asyn/Y39_mut
+OUT=/ssd1/chey120/workspace/mhcii_asyn/Y39_mut
 #rosetta command line
 for resfile in $RES/*.resfile;
 do

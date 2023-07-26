@@ -1,4 +1,4 @@
-#python /dors/meilerlab/home/chey120/chainA_chainA/scripts/md/dwell_time_sum.py *_hbond_188.dat DNEAY_4x5w_sum_hbond_188_sum.dat
+#python /dors/meilerlab/home/chey120/mhcii_asyn/scripts/md/dwell_time_sum.py *_hbond_188.dat DNEAY_4x5w_sum_hbond_188_sum.dat
 import math
 import sys
 from scipy.interpolate import InterpolatedUnivariateSpline

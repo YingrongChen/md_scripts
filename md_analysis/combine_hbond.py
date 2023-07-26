@@ -36,24 +36,24 @@ df.to_csv('../sum'+inp, index=False)
 # No equivalent function in Python, as it operates on the file system directly
 
 # Read the data file
-# chainA = pd.read_csv("/dors/meilerlab/home/chey120/chainA_chainA/Data/rmsf/sum_chainA_rmsf.dat")
+# asyn = pd.read_csv("/dors/meilerlab/home/chey120/mhcii_asyn/Data/rmsf/sum_asyn_rmsf.dat")
 
 # Perform data manipulation using pandas
-# chainA['Res'] = pd.Series(
+# asyn['Res'] = pd.Series(
 #     pd.np.select(
 #         [
-#             chainA['Res'] > 196,
-#             chainA['Res'] <= 196
+#             asyn['Res'] > 196,
+#             asyn['Res'] <= 196
 #         ],
 #         [
-#             chainA['Res'] - 400,
-#             chainA['Res'] - 180
+#             asyn['Res'] - 400,
+#             asyn['Res'] - 180
 #         ],
-#         default=chainA['Res']
+#         default=asyn['Res']
 #     )
 # )
-# chainA['Protein'] = pd.Categorical(
-#     chainA['Protein'],
+# asyn['Protein'] = pd.Categorical(
+#     asyn['Protein'],
 #     categories=[
 #         "DNEAY", "Y125_DNEAY", "S129_DNEAY", "TCR_DNEAY", "TCR_Y125_DNEAY",
 #         "TCR_S129_DNEAY", "KEGVL", "Y39_KEGVL", "S42_KEGVL", "TCR_KEGVL",
@@ -66,7 +66,7 @@ df.to_csv('../sum'+inp, index=False)
 # sns.set(style="ticks")
 # sns.set_palette("husl")
 # sns.scatterplot(
-#     data=chainA, x='Res', y='AtomicFlx', hue='Trial',
+#     data=asyn, x='Res', y='AtomicFlx', hue='Trial',
 #     style='Trial', size='Trial', sizes=[20, 20, 20], legend='full'
 # )
 # plt.ylim(0, 10)
@@ -78,4 +78,4 @@ df.to_csv('../sum'+inp, index=False)
 # plt.show()
 
 #setenv PATH /dors/meilerlab/home/brownbp1/miniconda3/envs/pyemma/bin:$PATH
-#python /combine_data.py _chainA_rmsf.dat
+#python /dors/meilerlab/home/chey120/mhcii_asyn/scripts/md_analysis/combine_data.py _asyn_rmsf.dat

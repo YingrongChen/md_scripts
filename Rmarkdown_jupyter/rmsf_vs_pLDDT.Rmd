@@ -12,7 +12,7 @@ library(tidyr)
 ```
 
 ```{r input}
-setwd('/dors/meilerlab/home/chey120/chainA_chainA/Data')
+setwd('/dors/meilerlab/home/chey120/mhcii_asyn/Data')
 AF = read.table("peptide_AFconfidence.dat",col.names= c("Res","Resid", "pLDDT", "protein")) %>% separate(protein, c("MHC_variants", "peptide"))
 MD = read.table("trial0_peptide_rmsf_no_cap.dat",col.names= c("Resid","rmsf", "protein")) %>% separate(protein, c("peptide", "MHC_variants", "Direction")) %>% mutate(Resid=Resid-180)
 AF <- AF %>%

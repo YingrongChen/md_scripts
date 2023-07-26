@@ -3,9 +3,9 @@
 #!/bin/csh
 
 ROSETTA=/dors/meilerlab/apps/rosetta/rosetta-3.13/main/source/bin
-# RELAX=/dors/meilerlab/home/chey120/chainA_chainA/Y39/relax
-# HIGHRES=/dors/meilerlab/home/chey120/chainA_chainA/Y39/highres
-DATA=/ssd1/chey120/workspace/chainA_chainA/chainA.db3
+# RELAX=/dors/meilerlab/home/chey120/mhcii_asyn/Y39/relax
+# HIGHRES=/dors/meilerlab/home/chey120/mhcii_asyn/Y39/highres
+DATA=/ssd1/chey120/workspace/mhcii_asyn/mhcii.db3
 #rosetta command line
 for file in `ls *.pdb`;
 do

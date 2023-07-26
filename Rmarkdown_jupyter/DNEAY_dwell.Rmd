@@ -13,7 +13,7 @@ getwd()
 ```
 
 ```{r}
-setwd('/dors/meilerlab/home/chey120/chainA_chainA/Data')
+setwd('/dors/meilerlab/home/chey120/mhcii_asyn/Data')
 DNEAY_4x5w = read.table("DNEAY_4x5w_dwell_190.dat",col.names= "Dwell_frames") %>% filter(Dwell_frames>5 & Dwell_frames <300)
 DNEAY_4x5w_4cutoff = read.table("DNEAY_4x5w_dwell_190_4cutoff.dat",col.names= "Dwell_frames")%>% filter(Dwell_frames>5 & Dwell_frames <300)
 phos_DNEAY_4x5w = read.table("phos_DNEAY_4x5w_dwell_190.dat",col.names= "Dwell_frames")%>% filter(Dwell_frames>5 & Dwell_frames <300)

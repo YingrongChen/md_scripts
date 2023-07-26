@@ -39,19 +39,19 @@ fig, axes = plt.subplots(2, 2, figsize=(10, 10))
 # Group the DataFrame by MHCII and Protein columns
 grouped = residue_67_df.groupby(['MHCII', 'Protein'])
 
-chainA_num = 0
+mhcii_num = 0
 protein_num = 0
 # Iterate over the groups and plot stacked bar graph on respective subplot
-for (chainA, protein), group in grouped:
-    ax = axes[chainA_num, protein_num]  # Calculate subplot index based on MHCII and Protein
+for (mhcii, protein), group in grouped:
+    ax = axes[mhcii_num, protein_num]  # Calculate subplot index based on MHCII and Protein
     group.drop(columns=['Residue']).set_index('Trial').plot(kind='bar', stacked=True, ax=ax)
-    ax.set_title(f'MHCII {chainA} - Protein {protein}')
+    ax.set_title(f'MHCII {mhcii} - Protein {protein}')
     ax.legend().set_visible(False)
     # Update subplot index
     protein_num += 1
     if protein_num == 2:
         protein_num = 0
-        chainA_num += 1
+        mhcii_num += 1
 
 # Add legend outside the subplots
 handles, labels = axes[0, 0].get_legend_handles_labels()

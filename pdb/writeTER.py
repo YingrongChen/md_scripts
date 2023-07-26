@@ -1,5 +1,5 @@
 import os
-directory='/dors/meilerlab/home/chey120/chainA_chainA/MD/hip/5ni9'
+directory='/dors/meilerlab/home/chey120/mhcii_asyn/MD/hip/5ni9'
 for file in os.listdir(directory):
     if file.endswith(".pdb"):
         fin = open(file)

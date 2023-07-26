@@ -1,7 +1,16 @@
 #!/bin/bash
+#SBATCH --ntasks=1
+#SBATCH --nodes=1
+#SBATCH --tasks-per-node=1
+#SBATCH --mem=100G
+#SBATCH --time=2-00:00:00
+#SBATCH --job-name=msm
+#SBATCH --output=msm.%j.log
+#SBATCH --reservation=md_simulation_brown_chen
 
 #to submit:
 #sbatch ../../scripts/pyemma/RunPyemmaJob_reservation.sh ../../scripts/pyemma/DNEAY_tica_build.py combine_DNEAY_5ni9.pdb combine_DNEAY_5ni9.nc
+source /dors/meilerlab/home/brownbp1/PowerCoding_10-24-2020/MD_Simulations/environment_control/amber18_environment.bash.txt
 export PATH=/dors/meilerlab/home/brownbp1/miniconda3/envs/pyemma/bin:$PATH
 echo $SLURM_JOB_NODELIST
 echo $HOST $HOSTNAME
@@ -32,5 +41,5 @@ echo $WRAPPER $TOPFILE $TRAJFILE $PREFIX $traj_size
 # fi
 # TRAJFILE=${TRAJFILE/.nc/_image.nc}
 
-# python /dors/meilerlab/home/chey120/chainA_chainA/scripts/pyemma/featurescore.py $TOPFILE $TRAJFILE $PREFIX
+# python /dors/meilerlab/home/chey120/mhcii_asyn/scripts/pyemma/featurescore.py $TOPFILE $TRAJFILE $PREFIX
 python $WRAPPER $TOPFILE $TRAJFILE $PREFIX $traj_size
