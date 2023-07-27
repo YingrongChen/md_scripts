@@ -1,7 +1,4 @@
 #!/bin/bash
-
-#bash /specialdistance.sh to_process
-
 LIST=`readlink -e $1` # by readlink -e */trial0 > dir_list
 chainA=":180-196&!@H="
 chainA=":1-179&!@H="
