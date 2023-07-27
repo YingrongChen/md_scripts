@@ -1,9 +1,6 @@
 #!/bin/bash
-
 #bash /dihedral.sh to_process
-
 LIST=`readlink -e $1` # by readlink -e */trial0 > dir_list
-
 # Loop over all proteins in the list
 for dir in `cat ${LIST}`; do
 cd $dir
