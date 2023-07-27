@@ -1,5 +1,4 @@
-#export PATH=/dors/meilerlab/home/brownbp1/miniconda3/envs/pyemma/bin:$PATH
-#setenv PATH /dors/meilerlab/home/brownbp1/miniconda3/envs/pyemma/bin:$PATH
+#try different features and see which one is the best
 
 import sys
 import os

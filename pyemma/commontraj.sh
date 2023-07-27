@@ -1,5 +1,5 @@
 #!/bin/bash
-
+#strip all but backbone atoms to construct a common trajectory
 
 LIST=`readlink -e $1` # by readlink -e */trial0 > dir_list
 END_DIR=/dors/meilerlab/home/chey120/chainA_chainA/commontraj
