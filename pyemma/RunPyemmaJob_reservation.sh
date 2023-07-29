@@ -2,7 +2,7 @@
 
 #to submit:
 #sbatch ../../scripts/pyemma/RunPyemmaJob_reservation.sh ../../scripts/pyemma/DNEAY_tica_build.py combine_DNEAY_5ni9.pdb combine_DNEAY_5ni9.nc
-export PATH=/dors/meilerlab/home/brownbp1/miniconda3/envs/pyemma/bin:$PATH
+export PATH=miniconda3/envs/pyemma/bin:$PATH
 echo $SLURM_JOB_NODELIST
 echo $HOST $HOSTNAME
 pv=`which python`
@@ -32,5 +32,5 @@ echo $WRAPPER $TOPFILE $TRAJFILE $PREFIX $traj_size
 # fi
 # TRAJFILE=${TRAJFILE/.nc/_image.nc}
 
-# python /dors/meilerlab/home/chey120/chainA_chainA/scripts/pyemma/featurescore.py $TOPFILE $TRAJFILE $PREFIX
+# python pyemma/featurescore.py $TOPFILE $TRAJFILE $PREFIX
 python $WRAPPER $TOPFILE $TRAJFILE $PREFIX $traj_size

@@ -1,5 +1,5 @@
-HIGHRES=/dors/meilerlab/home/chey120/chainA_chainA/Y39/highres
-ANALYSIS=/dors/meilerlab/home/chey120/chainA_chainA/Y39/analysis
+HIGHRES=highres
+ANALYSIS=analysis
 LEN=100 #expected number of lines in file
 #rosetta command line
 for file in $HIGHRES/*.sc;

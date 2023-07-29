@@ -14,7 +14,7 @@ library(matrixStats)
 ```
 
 ```{r peptide_input}
-setwd('/dors/meilerlab/home/chey120/chainA_chainA/Data/rmsf')
+setwd('Data/rmsf')
 MD0 = read.table("trial0_peptide_rmsf.dat",col.names= c("Resid","rmsf", "protein")) %>%
   separate(protein, c("peptide", "MHC_variants", "Direction")) %>%
   mutate(Resid=Resid-180, Direction = replace_na(Direction, "forw"))

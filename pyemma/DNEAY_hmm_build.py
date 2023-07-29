@@ -1,5 +1,5 @@
-#export PATH=/dors/meilerlab/home/brownbp1/miniconda3/envs/pyemma/bin:$PATH
-#setenv PATH /dors/meilerlab/home/brownbp1/miniconda3/envs/pyemma/bin:$PATH
+#export PATH=miniconda3/envs/pyemma/bin:$PATH
+#setenv PATH miniconda3/envs/pyemma/bin:$PATH
 
 import sys
 import os

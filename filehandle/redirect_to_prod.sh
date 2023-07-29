@@ -1,7 +1,7 @@
-#bash /dors/meilerlab/home/chey120/chainA_chainA/scripts/filehandle/redirect_to_prod.sh dir_list /dors/meilerlab/home/chey120/chainA_chainA/MD/KEGVL_1h15
+#bash filehandle/redirect_to_prod.sh dir_list MD/KEGVL_1h15
 
 LIST=`readlink -e $1` # by readlink -e */ > dir_list
-DIR=`readlink -e $2` #/dors/meilerlab/home/chey120/chainA_chainA/MD/1bx2_prod
+DIR=`readlink -e $2` #MD/1bx2_prod
 
 #rosetta command line
 for i in `cat ${LIST}`; do

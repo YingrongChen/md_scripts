@@ -1,4 +1,4 @@
-# bash /dors/meilerlab/home/chey120/chainA_chainA/scripts/filehandle/dat_combine.sh ../nativecontacts_tcr_chainA.dat
+# bash filehandle/dat_combine.sh ../nativecontacts_tcr_chainA.dat
 # for file in `ls *.dat`; do
 # TRIAL=`basename $file _*_*.dat`
 # PROTEIN=${file%*_trial*} #remove /trial0

@@ -1,4 +1,4 @@
-#bash /dors/meilerlab/home/chey120/chainA_chainA/scripts/filehandle/rename.sh
+#bash filehandle/rename.sh
 
 for file in */*
 do

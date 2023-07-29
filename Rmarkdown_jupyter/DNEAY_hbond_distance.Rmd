@@ -14,7 +14,7 @@ getwd()
 ```
 
 ```{r}
-setwd('/dors/meilerlab/home/chey120/chainA_chainA/Data')
+setwd('Data')
 DNEAY_4x5w = read.table("DNEAY_4x5w_hbond.dat",fill=TRUE,header=TRUE) %>% mutate(row_number= 1:n())
 DNEAY_5ni9 = read.table("DNEAY_5ni9_hbond.dat",fill=TRUE,header=TRUE) %>% mutate(row_number= 1:n())
 phos_DNEAY_4x5w = read.table("phos_DNEAY_4x5w_hbond.dat",fill=TRUE,header = TRUE) %>% mutate(row_number= 1:n())

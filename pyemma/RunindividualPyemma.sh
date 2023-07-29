@@ -2,7 +2,7 @@
 
 #to submit:
 #sbatch ../../scripts/pyemma/RunPyemmaJob.sh backbone_nontcr.pdb backbone_nontcr_prod.nc new_
-export PATH=/dors/meilerlab/home/brownbp1/miniconda3/envs/pyemma/bin:$PATH
+export PATH=miniconda3/envs/pyemma/bin:$PATH
 echo $SLURM_JOB_NODELIST
 echo $HOST $HOSTNAME
 pv=`which python`
@@ -12,7 +12,7 @@ export HDF5_USE_FILE_LOCKING='FALSE'
 
 PROTEIN=$(basename "$(pwd)")
 if [[ -f bb_${PROTEIN}*.combine.nc ]]; then
-cp /dors/meilerlab/home/chey120/chainA_chainA/MD/prod/$PROTEIN*/trial?/bb_${PROTEIN}_trial?_4x5w.combine.nc
+cp MD/prod/$PROTEIN*/trial?/bb_${PROTEIN}_trial?_4x5w.combine.nc
 fi
 # Input variables
 WRAPPER=`readlink -e $1` # buildmsm.py
@@ -35,5 +35,5 @@ echo $WRAPPER $TOPFILE $TRAJFILE $PREFIX $traj_size
 # fi
 # TRAJFILE=${TRAJFILE/.nc/_image.nc}
 
-# python /dors/meilerlab/home/chey120/chainA_chainA/scripts/pyemma/featurescore.py $TOPFILE $TRAJFILE $PREFIX
+# python pyemma/featurescore.py $TOPFILE $TRAJFILE $PREFIX
 python $WRAPPER $TOPFILE $TRAJFILE $PREFIX $traj_size

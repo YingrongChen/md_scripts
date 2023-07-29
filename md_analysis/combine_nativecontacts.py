@@ -35,7 +35,7 @@ grouped_df.to_csv('../group'+inp, index=False)
 # No equivalent function in Python, as it operates on the file system directly
 
 # Read the data file
-# chainA = pd.read_csv("/dors/meilerlab/home/chey120/chainA_chainA/Data/rmsf/sum_chainA_rmsf.dat")
+# chainA = pd.read_csv("Data/rmsf/sum_chainA_rmsf.dat")
 
 # Perform data manipulation using pandas
 # chainA['Res'] = pd.Series(
@@ -76,5 +76,5 @@ grouped_df.to_csv('../group'+inp, index=False)
 # plt.savefig("AtomicFlx.png")
 # plt.show()
 
-#setenv PATH /dors/meilerlab/home/brownbp1/miniconda3/envs/pyemma/bin:$PATH
+#setenv PATH miniconda3/envs/pyemma/bin:$PATH
 #python /combine_data.py _chainA_rmsf.dat

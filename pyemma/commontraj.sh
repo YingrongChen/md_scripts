@@ -2,7 +2,7 @@
 
 
 LIST=`readlink -e $1` # by readlink -e */trial0 > dir_list
-END_DIR=/dors/meilerlab/home/chey120/chainA_chainA/commontraj
+END_DIR=commontraj
 for dir in `cat ${LIST}`; do
 cd $dir
 Trial=`basename $dir`

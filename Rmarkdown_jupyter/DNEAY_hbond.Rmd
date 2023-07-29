@@ -13,7 +13,7 @@ getwd()
 ```
 
 ```{r}
-setwd('/dors/meilerlab/home/chey120/chainA_chainA/Data')
+setwd('Data')
 trial0 = read.table("trial0_backbond_hbt.dat",col.names= c("Acceptor","DonorH", "Donor", "Frames","Frac","AvgDist", "AvgAng", "protein")) 
 trial1 = read.table("trial1_backbond_hbt.dat",col.names= c("Acceptor","DonorH", "Donor", "Frames","Frac","AvgDist", "AvgAng", "protein"))
 trial2 = read.table("trial2_backbond_hbt.dat",col.names= c("Acceptor","DonorH", "Donor", "Frames","Frac","AvgDist", "AvgAng", "protein"))
@@ -127,6 +127,6 @@ out_forw <- forw_sum %>% separate(Acceptor, c("A_res", "A_atom"), sep = "_") %>%
 
 out_rev <- rev_sum %>% separate(Acceptor, c("A_res", "A_atom"), sep = "_") %>% separate(Donor, c("D_res", "D_atom"), sep = "_") %>% mutate(out = str_c(":", A_atom," :", D_atom)) %>% select(out)
 
-write.table(out_forw, file = "/dors/meilerlab/home/chey120/chainA_chainA/Data/DNEAY_forw.txt", row.names = FALSE, col.names = FALSE, quote = FALSE)
-write.table(out_rev, file = "/dors/meilerlab/home/chey120/chainA_chainA/Data/DNEAY_rev.txt", row.names = FALSE, col.names = FALSE, quote = FALSE)
+write.table(out_forw, file = "Data/DNEAY_forw.txt", row.names = FALSE, col.names = FALSE, quote = FALSE)
+write.table(out_rev, file = "Data/DNEAY_rev.txt", row.names = FALSE, col.names = FALSE, quote = FALSE)
 ```
