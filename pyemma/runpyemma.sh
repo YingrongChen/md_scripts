@@ -1,6 +1,6 @@
 #!/bin/bash
 #to submit:
-#sbatch ../../scripts/pyemma/RunPyemmaJob_reservation.sh ../../scripts/pyemma/DNEAY_tica_build.py combine_DNEAY_5ni9.pdb combine_DNEAY_5ni9.nc
+#sbatch pyemma/RunPyemmaJob_reservation.sh pyemma/projectmsm.py [pdb] [nc]
 export PATH=miniconda3/envs/pyemma/bin:$PATH
 echo $SLURM_JOB_NODELIST
 echo $HOST $HOSTNAME

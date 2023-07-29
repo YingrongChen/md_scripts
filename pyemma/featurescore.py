@@ -1,6 +1,7 @@
+#try different features and see which one is the best
+
 #export PATH=miniconda3/envs/pyemma/bin:$PATH
 #setenv PATH miniconda3/envs/pyemma/bin:$PATH
-#try different features and see which one is the best
 
 import sys
 import os
