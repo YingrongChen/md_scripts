@@ -1,5 +1,4 @@
 #!/bin/bash
-
 #to submit:
 #sbatch ../../scripts/pyemma/RunPyemmaJob_reservation.sh ../../scripts/pyemma/DNEAY_tica_build.py combine_DNEAY_5ni9.pdb combine_DNEAY_5ni9.nc
 export PATH=miniconda3/envs/pyemma/bin:$PATH

@@ -1,6 +1,4 @@
-#export PATH=miniconda3/envs/pyemma/bin:$PATH
-#setenv PATH miniconda3/envs/pyemma/bin:$PATH
-
+#construct a shared backbone tica model for all the trajectories and map individual trajectories to the shared tica space
 import sys
 import os
 import matplotlib.pyplot as plt
